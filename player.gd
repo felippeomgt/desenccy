@@ -1,35 +1,34 @@
 extends CharacterBody2D
-
-
 signal hit
 
-const FRICTION: float = 0.15
-@export var acceleration: int = 40
-@export var max_speed: int = 100
-@export var speed: int = 400
-var mov_direction: Vector2 = Vector2.ZERO
+@export var speed: float = 200.0
+@export var acceleration: float = 600.0
+@export var friction: float = 500.0
 
+func _physics_process(delta):
+	var direction = Vector2.ZERO
 
+	# Get input for movement
+	if Input.is_action_pressed("up"):
+		direction.y -= 1
+	if Input.is_action_pressed("down"):
+		direction.y += 1
+	if Input.is_action_pressed("left"):
+		direction.x -= 1
+	if Input.is_action_pressed("right"):
+		direction.x += 1
 
-func _process(delta):
-	var velocity = Vector2.ZERO
-	if Input.is_action_just_pressed("right"):
-		velocity.x +=1
-	if Input.is_action_just_pressed("left"):
-		velocity.x -= 1
-	if Input.is_action_just_pressed("up"):
-		velocity.y += 1
-	if Input.is_action_just_pressed("down"):
-		velocity.y -= 1
-		
-		
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		# play moving animation
+	# Normalize to prevent diagonal speed boost
+	direction = direction.normalized()
+
+	if direction != Vector2.ZERO:
+		# Apply acceleration in the direction of movement
+		velocity = velocity.move_toward(direction * speed, acceleration * delta)
 	else:
-		velocity = Vector2.ZERO
-		# play stopped animation
+		# Apply friction to slow down the character when no input is given
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
+	move_and_slide()
 
 func _on_body_entered(body):
 	hide() # Player disappears after being hit.
