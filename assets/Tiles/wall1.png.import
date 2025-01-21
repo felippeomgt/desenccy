@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn6ovrw4nsxbu"
-path="res://.godot/imported/Jump2.png-10a1231493437388730ed50c7fae7af6.ctex"
+uid="uid://b51uyq6rby3ew"
+path="res://.godot/imported/wall1.png-b52ac939c651b44053ab82b517703079.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/3 Cyborg/Jump2.png"
-dest_files=["res://.godot/imported/Jump2.png-10a1231493437388730ed50c7fae7af6.ctex"]
+source_file="res://assets/Tiles/wall1.png"
+dest_files=["res://.godot/imported/wall1.png-b52ac939c651b44053ab82b517703079.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

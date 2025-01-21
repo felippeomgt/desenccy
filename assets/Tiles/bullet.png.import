@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ba5eujgamfr5l"
-path="res://.godot/imported/Run1.png-122d700f3d75187a929d374ffe72df91.ctex"
+uid="uid://blf46v7gty0pt"
+path="res://.godot/imported/bullet.png-51cd4c2c985962d4e753836d16103f93.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/3 Cyborg/Run1.png"
-dest_files=["res://.godot/imported/Run1.png-122d700f3d75187a929d374ffe72df91.ctex"]
+source_file="res://assets/Tiles/bullet.png"
+dest_files=["res://.godot/imported/bullet.png-51cd4c2c985962d4e753836d16103f93.ctex"]
 
 [params]
 

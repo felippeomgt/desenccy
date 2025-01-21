@@ -4,6 +4,8 @@ signal hit
 @export var speed: float = 200.0
 @export var acceleration: float = 600.0
 @export var friction: float = 500.0
+@export var bullet_speed = 1000
+var bullet = preload("res://assets/sprites/bullet.tscn")
 
 func _physics_process(delta):
 	var direction = Vector2.ZERO
@@ -17,6 +19,10 @@ func _physics_process(delta):
 		direction.x -= 1
 	if Input.is_action_pressed("right"):
 		direction.x += 1
+	if Input.is_action_just_released("fireA"):
+		fire()
+	if Input.is_action_just_released("fireB"):
+		fire()
 
 	# Normalize to prevent diagonal speed boost
 	direction = direction.normalized()
@@ -29,6 +35,15 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 	move_and_slide()
+	look_at(get_global_mouse_position())
+
+func fire():
+	var bullet_instance = bullet.instantiate()
+	bullet_instance.position = get_global_position()
+	bullet_instance.rotation_degrees = rotation_degrees
+	bullet_instance.linear_velocity = Vector2(bullet_speed, 0).rotated(rotation)
+	get_parent().add_child(bullet_instance)
+	
 
 func _on_body_entered(body):
 	hide() # Player disappears after being hit.
