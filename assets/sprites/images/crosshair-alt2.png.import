@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b51uyq6rby3ew"
-path="res://.godot/imported/wall1.png-b52ac939c651b44053ab82b517703079.ctex"
+uid="uid://flgee85s22dj"
+path="res://.godot/imported/crosshair-alt2.png-70fb232cc11af04e734687da0c55d4a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tiles/wall1.png"
-dest_files=["res://.godot/imported/wall1.png-b52ac939c651b44053ab82b517703079.ctex"]
+source_file="res://assets/sprites/images/crosshair-alt2.png"
+dest_files=["res://.godot/imported/crosshair-alt2.png-70fb232cc11af04e734687da0c55d4a0.ctex"]
 
 [params]
 

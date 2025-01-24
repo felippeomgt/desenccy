@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blf46v7gty0pt"
-path="res://.godot/imported/bullet.png-51cd4c2c985962d4e753836d16103f93.ctex"
+uid="uid://hoawerq7i1rv"
+path="res://.godot/imported/lab_tilemap.png-53230e18a0c8c0eb25401630077c6edf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tiles/bullet.png"
-dest_files=["res://.godot/imported/bullet.png-51cd4c2c985962d4e753836d16103f93.ctex"]
+source_file="res://assets/tilemaps/lab_tilemap.png"
+dest_files=["res://.godot/imported/lab_tilemap.png-53230e18a0c8c0eb25401630077c6edf.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

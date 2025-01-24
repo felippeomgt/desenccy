@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp5yirbsiysqw"
-path="res://.godot/imported/remasteredSewerBrickCenterB.png-a525fb781e39bbb2b7d6c71f9bd54402.ctex"
+uid="uid://bdjlnjpo63bcy"
+path="res://.godot/imported/pixil-frame-0.png-114a27afab2d46454c2b2f9cbe1b440f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tilesets/remasteredSewerBrickCenterB.png"
-dest_files=["res://.godot/imported/remasteredSewerBrickCenterB.png-a525fb781e39bbb2b7d6c71f9bd54402.ctex"]
+source_file="res://assets/sprites/images/pixil-frame-0.png"
+dest_files=["res://.godot/imported/pixil-frame-0.png-114a27afab2d46454c2b2f9cbe1b440f.ctex"]
 
 [params]
 

@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://player.gd" id="1_w58xq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wb1om"]
+radius = 8.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s7hfc"]
 load_path = "res://.godot/imported/Idle1.png-5136408495cd206aefa44096353ddffe.ctex"
@@ -269,7 +270,7 @@ script = ExtResource("1_w58xq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-11, 7)
-scale = Vector2(1, 1.4)
+scale = Vector2(1.2, 1.4)
 shape = SubResource("CapsuleShape2D_wb1om")
 debug_color = Color(0.975255, 0, 0.420764, 0.42)
 
@@ -280,6 +281,9 @@ position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(-1, -1)
 sprite_frames = SubResource("SpriteFrames_mogdf")
 animation = &"walk"
+
+[node name="CooldownTimer" type="Timer" parent="."]
+autostart = true
