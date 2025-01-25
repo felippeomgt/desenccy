@@ -308,6 +308,10 @@ animations = [{
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_w58xq")
+speed = null
+acceleration = null
+friction = null
+weapons = null
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
