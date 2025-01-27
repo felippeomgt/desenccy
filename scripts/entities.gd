@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var spawn_zone = $SpawnZone
 @onready var shoot_timer = $Timer
 
+
 var player = null
 var is_active = false
 var angle
@@ -39,8 +40,8 @@ func _process(delta: float) -> void:
 		return
 	if is_active and player:
 		_move_towards_player()
-	angle = global_position.angle_to_point(player.global_position)
-	_play_animation_based_on_angle(rad_to_deg(angle))
+		angle = global_position.angle_to_point(player.global_position)
+		_play_animation_based_on_angle(rad_to_deg(angle))
 
 func _move_towards_player():
 	var direction = (player.global_position - global_position).normalized()
@@ -65,9 +66,16 @@ func fire_at_player():
 	weapon_holder.fire(self)
 
 func take_damage(amount):
-	damage -= amount
-	if damage <= 0:
-		queue_free()
+	enemy_health -= amount
+	print(enemy_health)
+	if enemy_health <= 0:
+		is_active = false
+		die()
+
+func die() -> void:
+	$AnimatedSprite2D.play("death")	
+	await get_tree().create_timer(1.0).timeout
+	queue_free()
 
 func _on_spawn_zone_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):

@@ -1,24 +1,41 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfbrwjmf5r2fn"]
+[gd_scene load_steps=5 format=3 uid="uid://bfbrwjmf5r2fn"]
 
 [ext_resource type="Script" path="res://scripts/projectile.gd" id="1_mg0wb"]
-[ext_resource type="Texture2D" uid="uid://blf46v7gty0pt" path="res://assets/sprites/bullet.png" id="2_n04u4"]
+[ext_resource type="Texture2D" uid="uid://1k6rjlo4brvw" path="res://assets/tilemaps/rocketlauncher_sprite.png" id="3_aixot"]
 
-[node name="projectile" type="RigidBody2D"]
-collision_layer = 2
-collision_mask = 4
+[sub_resource type="AtlasTexture" id="AtlasTexture_bo7px"]
+atlas = ExtResource("3_aixot")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v1i3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bo7px")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="projectile" type="RigidBody2D" node_paths=PackedStringArray("projectileSprite")]
+collision_layer = 8
+collision_mask = 8
 mass = 0.001
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("1_mg0wb")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -1)
-texture = ExtResource("2_n04u4")
+projectileSprite = NodePath("AnimatedSprite2D")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2(0, -1)
-scale = Vector2(1.0237, 0.974527)
+position = Vector2(0, -2)
+scale = Vector2(0.703125, 0.46875)
 polygon = PackedVector2Array(-8, -5, 4, -5, 6, -3, 8, -3, 8, 1, 6, 1, 5, 3, -8, 3)
 one_way_collision_margin = 0.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9, -1)
+scale = Vector2(1, 0.96875)
+sprite_frames = SubResource("SpriteFrames_v1i3p")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
