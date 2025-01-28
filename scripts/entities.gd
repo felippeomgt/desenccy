@@ -2,24 +2,44 @@ extends CharacterBody2D
  
 
 @export var enemy_speed: float = 100.0
-@export var enemy_health: float = 1.0
+@export var enemy_health: float = 100.0
 @export var weapon_scene: PackedScene
 @export var damage: int = 100
+@export var bullet_speed: float = 1000
 @export var time_between_shots: float = 2.0
-#@export var sprite_frames = SpriteFrames
+@export var weapon_drop_table: Array = [
+	{"weapon": preload("res://resources/guns/rifle.tres"), "chance": 0.3},
+]
 
+@onready var health_bar = $HealthBar
 
-#@onready var animated_sprite = $AnimatedSprite2D
 @onready var weapon_holder = $Weapon
 @onready var spawn_zone = $SpawnZone
 @onready var shoot_timer = $Timer
 
-
+var original_health: float
 var player = null
 var is_active = false
 var angle
 
-func _ready() -> void:
+func equip(weapon_data: Resource):
+	var weapon_instance = weapon_scene.instantiate()
+	weapon_instance.weapon_name = weapon_data.weapon_name
+	weapon_instance.max_cooldown = weapon_data.max_cooldown
+	weapon_instance.cooldown_rate = weapon_data.cooldown_rate
+	weapon_instance.heat_per_shot = weapon_data.heat_per_shot
+	weapon_instance.damage = weapon_data.damage
+	weapon_instance.damage_multiplier = weapon_data.damage_multiplier
+	weapon_instance.high_heat_damage_multiplier = weapon_data.high_heat_damage_multiplier
+	weapon_instance.reset_time = weapon_data.reset_time
+	weapon_instance.can_hold_shoot = weapon_data.can_hold_shoot
+	weapon_instance.fire_rate = weapon_data.fire_rate
+	weapon_instance.projectile = weapon_data.projectile	
+	return weapon_instance
+
+func _ready() -> void:	
+	original_health = enemy_health
+	health_bar.play('100')
 	add_to_group("enemy")
 	find_player()
 	#animated_sprite.sprite_frames = sprite_frames
@@ -59,6 +79,8 @@ func spawn_enemy_outside_screen():
 func fire_at_player():
 	if weapon_holder.get_child_count() == 0 and weapon_scene:
 		var weapon_instance = weapon_scene.instantiate()
+		weapon_holder.speed = bullet_speed
+		weapon_holder.damage = damage
 		weapon_holder.add_child(weapon_instance)
 		
 	var direction = (player.global_position - global_position).normalized()
@@ -67,14 +89,20 @@ func fire_at_player():
 
 func take_damage(amount):
 	enemy_health -= amount
-	print(enemy_health)
+	var health_percentage = float(enemy_health) / original_health
+	var animation_index = floor(health_percentage * 10)
+	animation_index = clamp(animation_index, 0, 9)
+	
+	health_bar.play(str(animation_index*10))
 	if enemy_health <= 0:
 		is_active = false
 		die()
 
+
 func die() -> void:
 	$AnimatedSprite2D.play("death")	
 	await get_tree().create_timer(1.0).timeout
+	
 	queue_free()
 
 func _on_spawn_zone_area_entered(area: Area2D) -> void:

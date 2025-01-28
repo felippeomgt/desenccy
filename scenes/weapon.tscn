@@ -1,7 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://bji6jidtk6wqo"]
+[gd_scene load_steps=7 format=3 uid="uid://bji6jidtk6wqo"]
 
 [ext_resource type="Script" path="res://scripts/weapon.gd" id="1_7lfqd"]
+[ext_resource type="Texture2D" uid="uid://crxf5dew7qirp" path="res://assets/sprites/flamethrower.png" id="2_sd2fi"]
 [ext_resource type="Texture2D" uid="uid://1k6rjlo4brvw" path="res://assets/tilemaps/rocketlauncher_sprite.png" id="2_tv4qe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fch0v"]
+atlas = ExtResource("2_sd2fi")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eedhd"]
 atlas = ExtResource("2_tv4qe")
@@ -9,12 +14,25 @@ region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xdmwy"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fch0v")
+}],
+"loop": true,
+"name": &"flamethrower",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eedhd")
 }],
 "loop": true,
-"name": &"default",
+"name": &"launcher",
 "speed": 5.0
 }]
 
@@ -23,3 +41,6 @@ script = ExtResource("1_7lfqd")
 
 [node name="WeaponSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xdmwy")
+
+[node name="BulletHole" type="Marker2D" parent="."]
+position = Vector2(16, -3)

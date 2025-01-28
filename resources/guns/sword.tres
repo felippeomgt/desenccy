@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cviskylp4a3gl"]
+
+[ext_resource type="Script" path="res://scripts/WeaponData.gd" id="1_tijtf"]
+
+[resource]
+script = ExtResource("1_tijtf")
+damage = 0.0
+speed = 0.0
+can_hold_shoot = false
+weapon_name = ""
+max_cooldown = 0.0
+cooldown_rate = 0.0
+heat_per_shot = 0.0
+damage_multiplier = 0.0
+high_heat_damage_multiplier = 0.0
+reset_time = 0.0
+fire_rate = 0.0
+projectile = "plasma"

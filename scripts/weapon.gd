@@ -1,21 +1,19 @@
 extends Node2D
 
-class_name Weapon
 
-
-@export var overheated: bool = false
-@export var damage: float = 100
-@export var speed: float = 1000
+@export var damage: float
+@export var speed: float
 @export var can_hold_shoot: bool = false
-@export var weapon_name: String = "gun"
+@export var weapon_name: String = "fist"
 @export var max_cooldown: float = 100.0 
 @export var cooldown_rate: float = 2.0  # Quanto resfria por segundo
 @export var heat_per_shot: float = 20.0  # Quanto esquenta por tiro
-@export var overheat_threshold: float = 100.0  # Quando chega a 100, não pode atirar
 @export var damage_multiplier: float = 1.0  # Dano base
 @export var high_heat_damage_multiplier: float = 1.5  # 70%+ de cooldown, mais dano
 @export var reset_time: float = 3.0  # Tempo para resetar após superaquecer
 @export var fire_rate: float = 0.2 
+@export var projectile: String = 'punch'
+@onready var animated_sprite = $WeaponSprite
 
 var current_cooldown: float = 0.0
 var is_overheated: bool = false
@@ -23,33 +21,30 @@ var cooldown_timer: Timer = Timer.new()
 var last_shot_time = 0.0
 
 # carregar os projectiles baseado no nome da arma (weapon_name) dps, pra nao precisar manualmente colocar cada um, a gente define pelo nome da arma
-@export var projectile_instance = preload("res://scenes/projectile-bullet.tscn")
+@export var projectile_instance = preload("res://scenes/projectile.tscn")
 
+func equipW(weapon_data: Resource):
+	weapon_name = weapon_data.weapon_name
+	max_cooldown = weapon_data.max_cooldown
+	cooldown_rate = weapon_data.cooldown_rate
+	heat_per_shot = weapon_data.heat_per_shot
+	damage = weapon_data.damage
+	damage_multiplier = weapon_data.damage_multiplier
+	high_heat_damage_multiplier = weapon_data.high_heat_damage_multiplier
+	reset_time = weapon_data.reset_time
+	can_hold_shoot = weapon_data.can_hold_shoot
+	fire_rate = weapon_data.fire_rate
+	projectile = weapon_data.projectile	
+	speed = weapon_data.speed
+	print(speed)
 
-# construct da classe
-static func create(_name: String, _max_cooldown: float, _cooldown_rate: float, _heat_per_shot:float, _overheat_threshold:float, _damage: float, _damage_multiplier: float, _reset_time:float, _high_heat_damage_multiplier:float, _speed:float, _fire_rate:float, _can_hold_shoot: bool) -> Weapon:
-	var weapon_scene = load("res://scenes/weapon.tscn")
-	var weapon_instance = weapon_scene.instantiate() 
-	weapon_instance.weapon_name = _name
-	weapon_instance.max_cooldown = _max_cooldown
-	weapon_instance.cooldown_rate = _cooldown_rate
-	weapon_instance.heat_per_shot = _heat_per_shot
-	weapon_instance.overheat_threshold = _overheat_threshold
-	weapon_instance.damage = _damage
-	weapon_instance.damage_multiplier = _damage_multiplier
-	weapon_instance.high_heat_damage_multiplier = _high_heat_damage_multiplier
-	weapon_instance.reset_time = _reset_time
-	weapon_instance.can_hold_shoot = _can_hold_shoot
-	weapon_instance.fire_rate = _fire_rate
-	return weapon_instance
-		
 
 func _init() -> void:
 	add_child(cooldown_timer)
 
 func _ready() -> void:
-	print(cooldown_timer)
-
+	if animated_sprite:
+		animated_sprite.play(weapon_name)
 
 func fire(origin_node):	
 	var current_time = Time.get_ticks_msec() / 1000.0  # Tempo atual em segundos
@@ -64,7 +59,7 @@ func fire(origin_node):
 		return
 
 	current_cooldown += heat_per_shot
-	if current_cooldown >= overheat_threshold:
+	if current_cooldown >= max_cooldown:
 		_trigger_overheat()
 		is_overheated = true
 		return
@@ -77,12 +72,22 @@ func fire(origin_node):
 
 	print("Atirando.. Cooldown: ", current_cooldown, " Dano: ", damage_multiplier)
 	
-	var projectile = projectile_instance.instantiate()
-	projectile.damage = damage
-	projectile.position = origin_node.global_position
-	projectile.rotation_degrees = rad_to_deg(origin_node.angle)
-	projectile.linear_velocity = Vector2(speed, 0).rotated(origin_node.angle)
-	origin_node.get_parent().add_child(projectile) 
+	var projectileInstanced = projectile_instance.instantiate()
+	projectileInstanced.projectile = projectile
+	projectileInstanced.damage = damage
+	
+	# O certo era sair a bala do $BulletHole, mas por alguma razao obscura as vezes ele fica null, dai o fallback é o braço do player
+	if $BulletHole == null:
+		projectileInstanced.position = origin_node.global_position
+	else:
+		projectileInstanced.position = $BulletHole.global_position
+		
+	projectileInstanced.rotation_degrees = rad_to_deg(origin_node.angle)
+	#if projectile != 'punch' and projectile != 'sword':
+
+	print(speed)
+	projectileInstanced.linear_velocity = Vector2(speed, 0).rotated(origin_node.angle)
+	origin_node.get_parent().add_child(projectileInstanced) 
 
 # funciona nos inimigos, nao funciona pro player, talvez porque a arma é instanciada dinamicamente, nao sei
 func _trigger_overheat():	

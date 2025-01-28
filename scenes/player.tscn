@@ -407,7 +407,7 @@ debug_color = Color(0.975255, 0, 0.420764, 0.42)
 position = Vector2(2, -16)
 scale = Vector2(0.944, 1)
 sprite_frames = SubResource("SpriteFrames_6om60")
-animation = &"death"
+animation = &"idle"
 
 [node name="CooldownTimer" type="Timer" parent="."]
 autostart = true

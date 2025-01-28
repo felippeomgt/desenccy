@@ -1,8 +1,6 @@
 extends CharacterBody2D
 signal hit
 
-const Weapon = preload("res://scripts/weapon.gd")
-
 @export var health: float = 500
 @export var speed: float = 200.0
 @export var acceleration: float = 600.0
@@ -14,20 +12,42 @@ var angle # angulo que o cursor está em relação ao jogador (usado pra mira)
 @onready var crosshair = preload("res://assets/sprites/images/crosshair-alt2.png")
 @onready var animated_sprite = $AnimatedSprite2D
 
+var flameThrower = preload("res://resources/guns/flamethrower.tres")
+var launcher = preload("res://resources/guns/launcher.tres")
+var sword = preload("res://resources/guns/sword.tres")
+var rigle = preload("res://resources/guns/rifle.tres")
+var lasergun = preload("res://resources/guns/lasergun.tres")
+var punch = preload("res://resources/guns/punch.tres")
+
 var activeA = "leftArm"
 var activeB = "rightArm"
+
+var weapon_scene = preload("res://scenes/weapon.tscn")
+	
+func equip(weapon_data: Resource):
+	var weapon_instance = weapon_scene.instantiate()
+	weapon_instance.equipW(weapon_data)
+	#weapon_instance.weapon_name = weapon_data.weapon_name
+	#weapon_instance.max_cooldown = weapon_data.max_cooldown
+	#weapon_instance.cooldown_rate = weapon_data.cooldown_rate
+	#weapon_instance.heat_per_shot = weapon_data.heat_per_shot
+	#weapon_instance.damage = weapon_data.damage
+	#weapon_instance.damage_multiplier = weapon_data.damage_multiplier
+	#weapon_instance.high_heat_damage_multiplier = weapon_data.high_heat_damage_multiplier
+	#weapon_instance.reset_time = weapon_data.reset_time
+	#weapon_instance.can_hold_shoot = weapon_data.can_hold_shoot
+	#weapon_instance.fire_rate = weapon_data.fire_rate
+	#weapon_instance.projectile = weapon_data.projectile	
+	return weapon_instance
 
 func _ready():
 	add_to_group("player")
 	Input.set_custom_mouse_cursor(crosshair)
 	
-	#instancia as armas, só pode esses 4 slots
-	#weapon (name, max_cooldown, cooldown_rate, heat_per_shot, overheat_threshold, damage,
-	# damage_multiplier, reset_time, high_heat_damage_multiplier, speed, can_hold_shoot)
-	weapons["leftArm"] = Weapon.create("Gun", 60.0, 15.0, 10.0, 100.0, 100.0, 1.0, 6.0, 1.65, 1000.0, 0.1, false)	
-	weapons["rightArm"] = Weapon.create("AK47", 160.0, 15.0, 10.0, 100.0, 100.0, 1.0, 6, 1.65, 2000, 0.2, true)
-	weapons["leftLeg"] = Weapon.create("AK47", 260.0, 15.0, 10.0, 100.0, 100.0, 1.0, 6, 1.65, 2000, 0.2, true)
-	weapons["rightLeg"] = Weapon.create("AK47", 360.0, 15.0, 10.0, 100.0, 100.0, 1.0, 6, 1.65, 2000,0.2, true)
+	weapons["leftArm"] = equip(punch)	
+	weapons["rightArm"] = equip(flameThrower)
+	weapons["leftLeg"] = equip(punch)
+	weapons["rightLeg"] = equip(punch)
 	$leftArm.add_child(weapons["leftArm"])
 	$rightArm.add_child(weapons["rightArm"])
 	$leftLeg.add_child(weapons["leftLeg"])

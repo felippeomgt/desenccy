@@ -139,15 +139,15 @@ animations = [{
 "texture": SubResource("AtlasTexture_qun2b")
 }],
 "loop": true,
-"name": &"red_bead",
+"name": &"plasma",
 "speed": 5.0
 }]
 
 [node name="enemy-projectile" instance=ExtResource("1_dwfv0")]
 collision_layer = 16
-collision_mask = 17
+collision_mask = 16
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 position = Vector2(1, -2)
 sprite_frames = SubResource("SpriteFrames_oq0dg")
-animation = &"red_bead"
+animation = &"plasma"
