@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bji6jidtk6wqo"]
+[gd_scene load_steps=8 format=3 uid="uid://bji6jidtk6wqo"]
 
 [ext_resource type="Script" path="res://scripts/weapon.gd" id="1_7lfqd"]
 [ext_resource type="Texture2D" uid="uid://crxf5dew7qirp" path="res://assets/sprites/flamethrower.png" id="2_sd2fi"]
@@ -36,11 +36,36 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_o0ach"]
+radius = 19.0263
+
 [node name="Weapon" type="Node2D"]
 script = ExtResource("1_7lfqd")
+damage = null
+speed = null
+can_hold_shoot = null
+weapon_name = null
+max_cooldown = null
+cooldown_rate = null
+heat_per_shot = null
+damage_multiplier = null
+high_heat_damage_multiplier = null
+reset_time = null
+fire_rate = null
+projectile = null
+projectile_instance = null
 
 [node name="WeaponSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xdmwy")
+animation = &"flamethrower"
 
 [node name="BulletHole" type="Marker2D" parent="."]
 position = Vector2(16, -3)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Pickup" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_o0ach")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

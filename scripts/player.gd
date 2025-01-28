@@ -1,5 +1,4 @@
 extends CharacterBody2D
-signal hit
 
 @export var health: float = 500
 @export var speed: float = 200.0
@@ -27,17 +26,6 @@ var weapon_scene = preload("res://scenes/weapon.tscn")
 func equip(weapon_data: Resource):
 	var weapon_instance = weapon_scene.instantiate()
 	weapon_instance.equipW(weapon_data)
-	#weapon_instance.weapon_name = weapon_data.weapon_name
-	#weapon_instance.max_cooldown = weapon_data.max_cooldown
-	#weapon_instance.cooldown_rate = weapon_data.cooldown_rate
-	#weapon_instance.heat_per_shot = weapon_data.heat_per_shot
-	#weapon_instance.damage = weapon_data.damage
-	#weapon_instance.damage_multiplier = weapon_data.damage_multiplier
-	#weapon_instance.high_heat_damage_multiplier = weapon_data.high_heat_damage_multiplier
-	#weapon_instance.reset_time = weapon_data.reset_time
-	#weapon_instance.can_hold_shoot = weapon_data.can_hold_shoot
-	#weapon_instance.fire_rate = weapon_data.fire_rate
-	#weapon_instance.projectile = weapon_data.projectile	
 	return weapon_instance
 
 func _ready():
@@ -45,7 +33,7 @@ func _ready():
 	Input.set_custom_mouse_cursor(crosshair)
 	
 	weapons["leftArm"] = equip(punch)	
-	weapons["rightArm"] = equip(flameThrower)
+	weapons["rightArm"] = equip(punch)
 	weapons["leftLeg"] = equip(punch)
 	weapons["rightLeg"] = equip(punch)
 	$leftArm.add_child(weapons["leftArm"])
@@ -179,6 +167,5 @@ func take_damage(amount):
 # le os eventos de quando o jogador é atingido
 func _on_body_entered(body):	
 	hide() 
-	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
 	

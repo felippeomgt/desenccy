@@ -1,5 +1,6 @@
 extends Node2D
 
+signal weapon_picked_up(weapon_data: Dictionary)
 
 @export var damage: float
 @export var speed: float
@@ -43,6 +44,7 @@ func _init() -> void:
 	add_child(cooldown_timer)
 
 func _ready() -> void:
+	connect("input_event", _on_input_event)
 	if animated_sprite:
 		animated_sprite.play(weapon_name)
 
@@ -103,3 +105,12 @@ func _trigger_overheat():
 func _on_CooldownTimer_timeout():
 	if current_cooldown > 0:
 		current_cooldown = max(0, current_cooldown - cooldown_rate)
+
+func _on_input_event(viewport, event, shape_idx):
+	print('hello')
+	if event is InputEventMouseButton and event.pressed:
+		weapon_picked_up.emit()
+		emit_signal("weapon_picked_up", weapon)
+
+func _on_area_2d_mouse_entered() -> void:
+	$WeaponSprite.modulate = Color(1, 1, 1, 0.7)

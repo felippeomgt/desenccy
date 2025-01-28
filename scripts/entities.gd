@@ -1,6 +1,6 @@
 extends CharacterBody2D
  
-
+@export var isMelee: bool = false
 @export var enemy_speed: float = 100.0
 @export var enemy_health: float = 100.0
 @export var weapon_scene: PackedScene
@@ -8,42 +8,32 @@ extends CharacterBody2D
 @export var bullet_speed: float = 1000
 @export var time_between_shots: float = 2.0
 @export var weapon_drop_table: Array = [
+	{"weapon": preload("res://resources/guns/flamethrower.tres"), "chance": 0.3},
+	{"weapon": preload("res://resources/guns/lasergun.tres"), "chance": 0.3},
+	{"weapon": preload("res://resources/guns/launcher.tres"), "chance": 0.3},
+	{"weapon": preload("res://resources/guns/punch.tres"), "chance": 0.3},
 	{"weapon": preload("res://resources/guns/rifle.tres"), "chance": 0.3},
+	{"weapon": preload("res://resources/guns/sword.tres"), "chance": 0.3},
 ]
 
-@onready var health_bar = $HealthBar
+var weaponsScene = preload("res://scenes/weapon.tscn")
 
+@onready var health_bar = $HealthBar
 @onready var weapon_holder = $Weapon
 @onready var spawn_zone = $SpawnZone
 @onready var shoot_timer = $Timer
 
+var hunt = true
 var original_health: float
 var player = null
 var is_active = false
 var angle
-
-func equip(weapon_data: Resource):
-	var weapon_instance = weapon_scene.instantiate()
-	weapon_instance.weapon_name = weapon_data.weapon_name
-	weapon_instance.max_cooldown = weapon_data.max_cooldown
-	weapon_instance.cooldown_rate = weapon_data.cooldown_rate
-	weapon_instance.heat_per_shot = weapon_data.heat_per_shot
-	weapon_instance.damage = weapon_data.damage
-	weapon_instance.damage_multiplier = weapon_data.damage_multiplier
-	weapon_instance.high_heat_damage_multiplier = weapon_data.high_heat_damage_multiplier
-	weapon_instance.reset_time = weapon_data.reset_time
-	weapon_instance.can_hold_shoot = weapon_data.can_hold_shoot
-	weapon_instance.fire_rate = weapon_data.fire_rate
-	weapon_instance.projectile = weapon_data.projectile	
-	return weapon_instance
 
 func _ready() -> void:	
 	original_health = enemy_health
 	health_bar.play('100')
 	add_to_group("enemy")
 	find_player()
-	#animated_sprite.sprite_frames = sprite_frames
-	spawn_zone.connect("body_entered", _on_spawn_zone_area_entered)
 	shoot_timer.connect("timeout", _on_shoot_timer_timeout)
 	shoot_timer.wait_time = time_between_shots
 	shoot_timer.start()
@@ -59,12 +49,20 @@ func _process(delta: float) -> void:
 		find_player()
 		return
 	if is_active and player:
-		_move_towards_player()
+		if hunt:
+			_move_towards_player()
+		else:
+			_move_away_player()
 		angle = global_position.angle_to_point(player.global_position)
 		_play_animation_based_on_angle(rad_to_deg(angle))
 
 func _move_towards_player():
 	var direction = (player.global_position - global_position).normalized()
+	velocity = direction * enemy_speed
+	move_and_slide()
+
+func _move_away_player():
+	var direction = (player.global_position + global_position).normalized()
 	velocity = direction * enemy_speed
 	move_and_slide()
 
@@ -101,13 +99,10 @@ func take_damage(amount):
 
 func die() -> void:
 	$AnimatedSprite2D.play("death")	
+	$CollisionShape2D.set_deferred("disabled", true)
 	await get_tree().create_timer(1.0).timeout
-	
 	queue_free()
-
-func _on_spawn_zone_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player"):
-		is_active = true
+	drop_weapon()
 
 func _on_shoot_timer_timeout() -> void:
 	if is_active and player:
@@ -131,3 +126,29 @@ func _play_animation_based_on_angle(angle_degrees):
 		$AnimatedSprite2D.play("up")
 	elif angle_degrees >= 292.5 and angle_degrees < 337.5:
 		$AnimatedSprite2D.play("up_right")
+
+func drop_weapon() -> void:
+	var rng = randi() % 100 / 100.0  # Número aleatório entre 0 e 1
+	var cumulative_chance = 0
+	for item in weapon_drop_table:
+		cumulative_chance += item["chance"]
+		if rng <= cumulative_chance:
+			var dropped_weapon = item["weapon"].duplicate()
+			spawn_weapon(dropped_weapon)
+			break
+
+func spawn_weapon(weapon: Resource) -> void:
+	var weapon_instance = weaponsScene.instantiate()
+	weapon_instance.equipW(weapon)
+	get_parent().add_child(weapon_instance)
+	weapon_instance.position = position  # Faz o drop na posição do inimigo
+
+func _on_spawn_zone_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		await get_tree().create_timer(0.2).timeout
+		hunt = false
+
+func _on_spawn_zone_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		await get_tree().create_timer(0.2).timeout
+		hunt = true

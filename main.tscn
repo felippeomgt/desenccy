@@ -19,6 +19,11 @@ position = Vector2(187, 313)
 [node name="Drone" parent="." instance=ExtResource("3_6a0cp")]
 position = Vector2(274, 306)
 
+[node name="blackDrone" parent="." instance=ExtResource("3_6a0cp")]
+position = Vector2(222, 226)
+enemy_health = 500.0
+time_between_shots = 1.0
+
 [node name="player" parent="." instance=ExtResource("1_xgc74")]
 position = Vector2(88, 596)
 motion_mode = 1
