@@ -15,18 +15,21 @@ class_name Weapon
 @export var damage_multiplier: float = 1.0  # Dano base
 @export var high_heat_damage_multiplier: float = 1.5  # 70%+ de cooldown, mais dano
 @export var reset_time: float = 3.0  # Tempo para resetar após superaquecer
+@export var fire_rate: float = 0.2 
 
 var current_cooldown: float = 0.0
 var is_overheated: bool = false
-
 var cooldown_timer: Timer = Timer.new()
+var last_shot_time = 0.0
 
 # carregar os projectiles baseado no nome da arma (weapon_name) dps, pra nao precisar manualmente colocar cada um, a gente define pelo nome da arma
-@export var projectile_instance = preload("res://scenes/projectile.tscn")
+@export var projectile_instance = preload("res://scenes/projectile-bullet.tscn")
+
 
 # construct da classe
-static func create(_name: String, _max_cooldown: float, _cooldown_rate: float, _heat_per_shot:float, _overheat_threshold:float, _damage: float, _damage_multiplier: float, _reset_time:float, _high_heat_damage_multiplier:float, _speed:float, _can_hold_shoot: bool) -> Weapon:
-	var weapon_instance = Weapon.new()
+static func create(_name: String, _max_cooldown: float, _cooldown_rate: float, _heat_per_shot:float, _overheat_threshold:float, _damage: float, _damage_multiplier: float, _reset_time:float, _high_heat_damage_multiplier:float, _speed:float, _fire_rate:float, _can_hold_shoot: bool) -> Weapon:
+	var weapon_scene = load("res://scenes/weapon.tscn")
+	var weapon_instance = weapon_scene.instantiate() 
 	weapon_instance.weapon_name = _name
 	weapon_instance.max_cooldown = _max_cooldown
 	weapon_instance.cooldown_rate = _cooldown_rate
@@ -37,7 +40,9 @@ static func create(_name: String, _max_cooldown: float, _cooldown_rate: float, _
 	weapon_instance.high_heat_damage_multiplier = _high_heat_damage_multiplier
 	weapon_instance.reset_time = _reset_time
 	weapon_instance.can_hold_shoot = _can_hold_shoot
+	weapon_instance.fire_rate = _fire_rate
 	return weapon_instance
+		
 
 func _init() -> void:
 	add_child(cooldown_timer)
@@ -46,7 +51,14 @@ func _ready() -> void:
 	print(cooldown_timer)
 
 
-func fire(origin_node):
+func fire(origin_node):	
+	var current_time = Time.get_ticks_msec() / 1000.0  # Tempo atual em segundos
+	if current_time - last_shot_time >= fire_rate:
+		last_shot_time = current_time
+		pass
+	else:
+		return
+		
 	if is_overheated:
 		print("Weapon is overheated!")
 		return
@@ -64,8 +76,9 @@ func fire(origin_node):
 		damage_multiplier = 1.0 # default 1.0
 
 	print("Atirando.. Cooldown: ", current_cooldown, " Dano: ", damage_multiplier)
-		
+	
 	var projectile = projectile_instance.instantiate()
+	projectile.damage = damage
 	projectile.position = origin_node.global_position
 	projectile.rotation_degrees = rad_to_deg(origin_node.angle)
 	projectile.linear_velocity = Vector2(speed, 0).rotated(origin_node.angle)
