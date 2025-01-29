@@ -32,7 +32,7 @@ func _ready():
 	add_to_group("player")
 	Input.set_custom_mouse_cursor(crosshair)
 	
-	weapons["leftArm"] = equip(punch)	
+	weapons["leftArm"] = equip(lasergun)
 	weapons["rightArm"] = equip(punch)
 	weapons["leftLeg"] = equip(punch)
 	weapons["rightLeg"] = equip(punch)

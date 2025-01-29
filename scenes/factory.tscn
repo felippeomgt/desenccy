@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://prv7dfa6k3jv" path="res://assets/tilesets/factory-floor.tres" id="1_jtnom"]
 [ext_resource type="TileSet" uid="uid://cbjs6wug802pt" path="res://assets/tilesets/factory-walls.tres" id="2_bv1p4"]
-[ext_resource type="PackedScene" uid="uid://dfpeghvrpd0cc" path="res://scenes/room_limiter.tscn" id="3_nv8s3"]
+[ext_resource type="PackedScene" uid="uid://b0bjvfhxlw3rk" path="res://scenes/room_limiter.tscn" id="3_nv8s3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ul1f2"]
 size = Vector2(31.75, 30)

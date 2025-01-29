@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7ulh3eyurd24"]
+[gd_scene load_steps=8 format=3 uid="uid://b7ulh3eyurd24"]
 
 [ext_resource type="PackedScene" uid="uid://dotjtrd27ecxm" path="res://scenes/player.tscn" id="1_xgc74"]
 [ext_resource type="PackedScene" uid="uid://cg3tw0x6pujkc" path="res://scenes/factory.tscn" id="2_bqhjc"]
+[ext_resource type="PackedScene" uid="uid://d2dtoobmrcsdn" path="res://scenes/spawner.tscn" id="3_un1sy"]
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="4_eq8h3"]
+[ext_resource type="Resource" uid="uid://dp8tcvurtso2w" path="res://resources/enemies/kvn.tres" id="5_4wkhi"]
+[ext_resource type="Resource" uid="uid://bqqy164k01k0e" path="res://resources/enemies/kvn-dark.tres" id="6_h0ygj"]
 
 [sub_resource type="Environment" id="Environment_7bt1h"]
 background_color = Color(0.39201, 0.147976, 0.139528, 1)
@@ -19,3 +23,17 @@ platform_wall_layers = 5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7bt1h")
+
+[node name="Spawner" parent="." instance=ExtResource("3_un1sy")]
+enemy_count = 10
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi"), ExtResource("6_h0ygj")])
+spawn_area = Rect2(400, 200, 10, 10)
+waves = 2
+wave_timeout = 5.0
+
+[node name="Spawner2" parent="." instance=ExtResource("3_un1sy")]
+enemy_count = 4
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi"), ExtResource("6_h0ygj")])
+spawn_area = Rect2(70, 200, 1, 1)
+waves = 1
+wave_timeout = 0.1

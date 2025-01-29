@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var zoom: Vector2 = Vector2(1,1)
+@export var zoom: Vector2 = Vector2(3,3)
 
 @onready var topLeft = $TopLeft
 @onready var bottomRight = $BottomRight

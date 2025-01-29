@@ -40,7 +40,6 @@ func equipW(weapon_data: Resource):
 	fire_rate = weapon_data.fire_rate
 	projectile = weapon_data.projectile	
 	speed = weapon_data.speed
-	print(speed)
 
 
 func _init() -> void:

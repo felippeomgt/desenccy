@@ -9,6 +9,7 @@ size = Vector2(31.75, 32)
 position = Vector2(171, 304)
 collision_layer = 32
 script = ExtResource("1_hfvgu")
+zoom = Vector2(3, 3)
 
 [node name="TopLeft" type="Marker2D" parent="."]
 position = Vector2(-171, -144)
