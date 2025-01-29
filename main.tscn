@@ -25,7 +25,7 @@ enemy_health = 500.0
 time_between_shots = 1.0
 
 [node name="player" parent="." instance=ExtResource("1_xgc74")]
-position = Vector2(88, 596)
+position = Vector2(60, 444)
 motion_mode = 1
 platform_wall_layers = 5
 
