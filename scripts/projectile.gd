@@ -15,6 +15,8 @@ func _ready():
 
 func _on_body_entered(body):
 	print("Collided with: ", body.name)
+	if body.name == 'Walls':
+		projectileSprite.play('explosion')
 	print("damage: ", damage)
 	if body.is_in_group("enemy"):
 		body.take_damage(damage)

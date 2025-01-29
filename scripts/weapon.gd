@@ -1,6 +1,8 @@
 extends Node2D
 
-signal weapon_picked_up(weapon_data: Dictionary)
+@export var weapon_data: Resource  # Dados da arma
+signal picked_up(weapon_data: Resource)  # Definição do sinal
+
 
 @export var damage: float
 @export var speed: float
@@ -25,6 +27,7 @@ var last_shot_time = 0.0
 @export var projectile_instance = preload("res://scenes/projectile.tscn")
 
 func equipW(weapon_data: Resource):
+	weapon_data = weapon_data
 	weapon_name = weapon_data.weapon_name
 	max_cooldown = weapon_data.max_cooldown
 	cooldown_rate = weapon_data.cooldown_rate
@@ -107,10 +110,10 @@ func _on_CooldownTimer_timeout():
 		current_cooldown = max(0, current_cooldown - cooldown_rate)
 
 func _on_input_event(viewport, event, shape_idx):
-	print('hello')
 	if event is InputEventMouseButton and event.pressed:
-		weapon_picked_up.emit()
-		emit_signal("weapon_picked_up", weapon)
+		print("Picked up weapon:", weapon_data)
+		picked_up.emit(weapon_data)
+		#queue_free()  # Remove a arma do chão
 
 func _on_area_2d_mouse_entered() -> void:
 	$WeaponSprite.modulate = Color(1, 1, 1, 0.7)

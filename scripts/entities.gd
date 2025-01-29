@@ -139,9 +139,11 @@ func drop_weapon() -> void:
 
 func spawn_weapon(weapon: Resource) -> void:
 	var weapon_instance = weaponsScene.instantiate()
+	weapon_instance.weapon_data = weapon
 	weapon_instance.equipW(weapon)
+	weapon_instance.add_to_group("pickups")
 	get_parent().add_child(weapon_instance)
-	weapon_instance.position = position  # Faz o drop na posição do inimigo
+	weapon_instance.position = position
 
 func _on_spawn_zone_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

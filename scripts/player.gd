@@ -41,6 +41,12 @@ func _ready():
 	$leftLeg.add_child(weapons["leftLeg"])
 	$rightLeg.add_child(weapons["rightLeg"])
 
+
+func _on_weapon_picked_up(weapon_data: Resource):
+	print('equipou', weapon_data)
+	#weapons["leftArm"] = equip(weapon_data)
+	#$leftArm.add_child(weapons["leftArm"])	
+
 func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
@@ -50,6 +56,34 @@ func _process(delta):
 		_moveLegsAndArms()
 	else:
 		_stopMoving()
+	
+	pickupGuns()
+
+func pickupGuns():
+	for weapon in get_tree().get_nodes_in_group("pickups"):
+		if weapon and weapon.has_node("WeaponSprite"):  # Garante que tem um Sprite2D
+			var sprite = weapon.get_node("WeaponSprite")
+			if sprite:
+				var texture = sprite.sprite_frames.get_frame_texture(sprite.animation, 0)
+				if texture:
+					var texture_size = texture.get_size()
+					var weapon_rect = Rect2(weapon.global_position - texture_size * 0.5, texture_size)		
+					if weapon_rect.has_point(get_global_mouse_position()):
+						var activeAweapon = get_node(activeA)
+						var activeBweapon = get_node(activeB)
+						if Input.is_action_just_pressed("fireA"):					
+							weapons[activeA] = equip(weapon.weapon_data)
+							if activeAweapon.get_child_count() > 0:
+								activeAweapon.get_child(0).queue_free()
+							activeAweapon.add_child(weapons[activeA])
+							weapon.queue_free()
+						elif Input.is_action_just_pressed("fireB"):
+							weapons[activeB] = equip(weapon.weapon_data)
+							if activeBweapon.get_child_count() > 0:
+								activeBweapon.get_child(0).queue_free()
+							activeBweapon.add_child(weapons[activeB])
+							weapon.queue_free()
+
 
 func _stopMoving():
 	if _getActiveWeapon() == 'arms':
@@ -169,3 +203,5 @@ func _on_body_entered(body):
 	hide() 
 	$CollisionShape2D.set_deferred("disabled", true)
 	
+func on_weapon_picked_up():
+	print('hi')
