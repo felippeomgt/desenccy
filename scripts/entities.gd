@@ -18,7 +18,8 @@ extends CharacterBody2D
 var weaponsScene = preload("res://scenes/weapon.tscn")
 var sprites = {
 	'kvn' = preload("res://resources/entities/kvn.tres"),
-	'kvn-dark' = preload("res://resources/entities/dark-kvn.tres")
+	'kvn-dark' = preload("res://resources/entities/dark-kvn.tres"),
+	'cyborg' = preload("res://resources/entities/cyborg.tres")
 }
 
 # onready
@@ -27,6 +28,9 @@ var sprites = {
 @onready var spawn_zone = $SpawnZone
 @onready var shoot_timer = $Timer
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var enemy_hurt = $EnemyHurt
+@onready var enemy_die = $EnemyDie
+@onready var enemy_spawn = $SpawnZone/Spawn
 
 # local variables
 var hunt = true
@@ -38,7 +42,7 @@ var angle
 func spawn(resource: Resource):
 	resource = resource
 	isMelee = resource.isMelee
-	original_health = enemy_health
+	original_health = resource.enemy_health
 	enemy_speed = resource.enemy_speed
 	enemy_health = resource.enemy_health
 	damage = resource.damage
@@ -46,13 +50,15 @@ func spawn(resource: Resource):
 	time_between_shots = resource.time_between_shots
 	weapon_drop_table = resource.weapon_drop_table
 	sprite = resource.sprite
+	projectile = resource.projectile
 	
 
 func _ready() -> void:
 	if sprites.has(sprite):
 		$AnimatedSprite2D.frames = sprites[sprite]
-	health_bar.play('100')
+	health_bar.play('9')
 	add_to_group("enemy")
+	enemy_spawn.play()
 	find_player()
 	shoot_timer.connect("timeout", _on_shoot_timer_timeout)
 	shoot_timer.wait_time = time_between_shots
@@ -96,21 +102,23 @@ func fire_at_player():
 		
 	var direction = (player.global_position - global_position).normalized()
 	weapon_holder.look_at(player.global_position)	
-	weapon_holder.fire(self)
+	weapon_holder.fire(self, projectile)
 
 func take_damage(amount):
 	enemy_health -= amount
-	var health_percentage = float(enemy_health) / original_health
-	var animation_index = floor(health_percentage * 10)
+	var health_percentage = float(enemy_health) / float(original_health)
+	var animation_index = floor(health_percentage * 10.0)
 	animation_index = clamp(animation_index, 0, 9)
+	enemy_hurt.play()
 	
-	health_bar.play(str(animation_index*10))
+	health_bar.play(str(animation_index))
 	if enemy_health <= 0:
 		is_active = false
 		die()
 
 func die() -> void:
-	animated_sprite.play("death")	
+	animated_sprite.play("death")
+	enemy_die.play()
 	$CollisionShape2D.set_deferred("disabled", true)
 	await get_tree().create_timer(1.0).timeout
 	queue_free()

@@ -17,6 +17,18 @@ signal picked_up(weapon_data: Resource)  # Definição do sinal
 @export var fire_rate: float = 0.2 
 @export var projectile: String = 'punch'
 @onready var animated_sprite = $WeaponSprite
+@onready var sound = $Sound
+
+var sounds = {
+	'bullet' = preload("res://assets/sounds/bullet.mp3"),
+	'explosion' = preload("res://assets/sounds/explosion.mp3"),
+	'flames' = preload("res://assets/sounds/bullet.mp3"),
+	'laser' = preload("res://assets/sounds/laser1.wav"),
+	'missile' = preload("res://assets/sounds/launcher.mp3"),
+	'plasma' = preload("res://assets/sounds/laser1.wav"),
+	'punch' = preload("res://assets/sounds/punch.mp3"),
+	'swing' = preload("res://assets/sounds/punch.mp3"),
+}
 
 var current_cooldown: float = 0.0
 var is_overheated: bool = false
@@ -50,7 +62,7 @@ func _ready() -> void:
 	if animated_sprite:
 		animated_sprite.play(weapon_name)
 
-func fire(origin_node):	
+func fire(origin_node, alternative_projectile = ''):	
 	var current_time = Time.get_ticks_msec() / 1000.0  # Tempo atual em segundos
 	if current_time - last_shot_time >= fire_rate:
 		last_shot_time = current_time
@@ -59,7 +71,6 @@ func fire(origin_node):
 		return
 		
 	if is_overheated:
-		print("Weapon is overheated!")
 		return
 
 	current_cooldown += heat_per_shot
@@ -73,11 +84,12 @@ func fire(origin_node):
 		damage_multiplier = high_heat_damage_multiplier
 	else:
 		damage_multiplier = 1.0 # default 1.0
-
-	print("Atirando.. Cooldown: ", current_cooldown, " Dano: ", damage_multiplier)
 	
 	var projectileInstanced = projectile_instance.instantiate()
-	projectileInstanced.projectile = projectile
+	if alternative_projectile != '':
+		projectileInstanced.projectile = alternative_projectile
+	else:
+		projectileInstanced.projectile = projectile
 	projectileInstanced.damage = damage
 	
 	# O certo era sair a bala do $BulletHole, mas por alguma razao obscura as vezes ele fica null, dai o fallback é o braço do player
@@ -89,20 +101,24 @@ func fire(origin_node):
 	projectileInstanced.rotation_degrees = rad_to_deg(origin_node.angle)
 	#if projectile != 'punch' and projectile != 'sword':
 
-	print(speed)
 	projectileInstanced.linear_velocity = Vector2(speed, 0).rotated(origin_node.angle)
-	origin_node.get_parent().add_child(projectileInstanced) 
+	origin_node.get_parent().add_child(projectileInstanced)
+	play_sound_dynamic(projectile)
+	
+
+func play_sound_dynamic(projectile):
+	var audio = sounds[projectile]
+	if sound and audio:
+		sound.stream = audio 
+		sound.play()
 
 # funciona nos inimigos, nao funciona pro player, talvez porque a arma é instanciada dinamicamente, nao sei
 func _trigger_overheat():	
-	print(cooldown_timer)
 	cooldown_timer.stop()
-	print("Weapon overheated! Cooling down...")
 	cooldown_timer.start() 
 	await cooldown_timer.timeout
 	current_cooldown = 0
 	is_overheated = false
-	print("Weapon cooled down and ready to fire again!")
 
 func _on_CooldownTimer_timeout():
 	if current_cooldown > 0:
@@ -110,9 +126,7 @@ func _on_CooldownTimer_timeout():
 
 func _on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
-		print("Picked up weapon:", weapon_data)
 		picked_up.emit(weapon_data)
-		#queue_free()  # Remove a arma do chão
 
 func _on_area_2d_mouse_entered() -> void:
 	$WeaponSprite.modulate = Color(1, 1, 1, 0.7)

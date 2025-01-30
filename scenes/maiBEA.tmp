@@ -1,0 +1,110 @@
+[gd_scene load_steps=6 format=3 uid="uid://dr4ls5704n24u"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_muokj"]
+[ext_resource type="AudioStream" uid="uid://bochnl7rw8dhs" path="res://assets/sounds/menu-hover.wav" id="2_yvw0o"]
+[ext_resource type="AudioStream" uid="uid://cvlpg0eqyg2c7" path="res://assets/sounds/game-start.mp3" id="3_sp04r"]
+
+[sub_resource type="FontFile" id="FontFile_oci1f"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_j0fwp"]
+font = SubResource("FontFile_oci1f")
+font_size = 32
+font_color = Color(1.44392e-07, 0.339222, 0.538638, 1)
+outline_size = 2
+outline_color = Color(0.125546, 0.0791297, 0.0735983, 1)
+shadow_size = 14
+shadow_color = Color(0.00784314, 0.00784314, 0, 0.443137)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_muokj")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(29.6917, 17.4756)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 83.0
+offset_right = 442.0
+offset_bottom = 127.0
+scale = Vector2(3.88253, 4.23842)
+text = "DesSenCy"
+label_settings = SubResource("LabelSettings_j0fwp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainButtons" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 293.0
+offset_right = 605.0
+offset_bottom = 394.0
+
+[node name="StartButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+text = "New Game"
+
+[node name="ControlsButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+text = "Controls
+"
+
+[node name="QuitButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+text = "Quit"
+
+[node name="ControlsPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 151.0
+offset_top = 146.0
+offset_right = 151.0
+offset_bottom = 146.0
+
+[node name="Label" type="Label" parent="ControlsPanel"]
+layout_mode = 0
+offset_left = 172.0
+offset_top = 111.0
+offset_right = 638.0
+offset_bottom = 316.0
+text = "W -> Move up
+A -> Move left
+S -> Move down
+D -> Move right
+Space Bar -> Switch active weapons (between legs and arms)
+Left Mouse Button -> Fire left arm/leg weapon
+Right Mouse Button -> Fire right arm/leg weapon
+ESC -> Open Pause Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HoverMenu" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_yvw0o")
+
+[node name="StartGame" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_sp04r")
+
+[connection signal="mouse_entered" from="MainButtons/StartButton" to="." method="_on_start_button_mouse_entered"]
+[connection signal="pressed" from="MainButtons/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="mouse_entered" from="MainButtons/ControlsButton" to="." method="_on_controls_button_mouse_entered"]
+[connection signal="pressed" from="MainButtons/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="mouse_entered" from="MainButtons/QuitButton" to="." method="_on_quit_button_mouse_entered"]
+[connection signal="pressed" from="MainButtons/QuitButton" to="." method="_on_quit_button_pressed"]

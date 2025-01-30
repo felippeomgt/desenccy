@@ -93,5 +93,7 @@ position = Vector2(16, -3)
 [node name="Pickup" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_o0ach")
 
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+
 [connection signal="input_event" from="Area2D" to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

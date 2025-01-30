@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=56 format=3 uid="uid://pefdn85wk7gn"]
+[gd_resource type="SpriteFrames" load_steps=45 format=3 uid="uid://pefdn85wk7gn"]
 
 [ext_resource type="Texture2D" uid="uid://blf46v7gty0pt" path="res://assets/sprites/bullet.png" id="1_xs7ne"]
 [ext_resource type="Texture2D" uid="uid://bo2yep8jdv6yi" path="res://assets/sprites/images/explosion-animated.png" id="2_0srpa"]
@@ -67,50 +67,6 @@ region = Rect2(32, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_y2g7q"]
 atlas = ExtResource("2_ntrvx")
 region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tsqa1"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4q78t"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c67fp"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1ui8t"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_47q1v"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rqa1a"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(160, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_glkn3"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(192, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l1acy"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(224, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r8454"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(256, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8tsjc"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(288, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_njcno"]
-atlas = ExtResource("3_vsdvs")
-region = Rect2(320, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqcxo"]
 atlas = ExtResource("3_vsdvs")
@@ -263,39 +219,6 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tsqa1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4q78t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c67fp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1ui8t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_47q1v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rqa1a")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_glkn3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l1acy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r8454")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8tsjc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_njcno")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hqcxo")
 }, {

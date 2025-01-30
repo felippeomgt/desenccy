@@ -10,6 +10,11 @@ var angle # angulo que o cursor está em relação ao jogador (usado pra mira)
 @onready var cooldown_timer = $CooldownTimer
 @onready var crosshair = preload("res://assets/sprites/images/crosshair-alt2.png")
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var black = $Black
+@onready var game_over = $GameOver
+@onready var player_hurt = $PlayerHurt
+@onready var footsteps = $Footsteps
+@onready var weapon_pickup = $WeaponPickup
 
 var flameThrower = preload("res://resources/guns/flamethrower.tres")
 var launcher = preload("res://resources/guns/launcher.tres")
@@ -20,8 +25,10 @@ var punch = preload("res://resources/guns/punch.tres")
 
 var activeA = "leftArm"
 var activeB = "rightArm"
+var dead = false
 
 var weapon_scene = preload("res://scenes/weapon.tscn")
+
 	
 func equip(weapon_data: Resource):
 	var weapon_instance = weapon_scene.instantiate()
@@ -29,11 +36,13 @@ func equip(weapon_data: Resource):
 	return weapon_instance
 
 func _ready():
+	black.color.a = 0
+	black.hide()
 	add_to_group("player")
 	Input.set_custom_mouse_cursor(crosshair)
 	
-	weapons["leftArm"] = equip(lasergun)
-	weapons["rightArm"] = equip(punch)
+	weapons["leftArm"] = equip(punch)
+	weapons["rightArm"] = equip(sword)
 	weapons["leftLeg"] = equip(punch)
 	weapons["rightLeg"] = equip(punch)
 	$leftArm.add_child(weapons["leftArm"])
@@ -41,20 +50,16 @@ func _ready():
 	$leftLeg.add_child(weapons["leftLeg"])
 	$rightLeg.add_child(weapons["rightLeg"])
 
-
-func _on_weapon_picked_up(weapon_data: Resource):
-	print('equipou', weapon_data)
-	#weapons["leftArm"] = equip(weapon_data)
-	#$leftArm.add_child(weapons["leftArm"])	
-
 func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
 	# angulo da mira em relação ao player, faz o tiro sair pra direção certa
 	angle = direction.angle()
 	if velocity.length() > 0: 
+		footsteps.play()
 		_moveLegsAndArms()
 	else:
+		footsteps.stop()
 		_stopMoving()
 	
 	pickupGuns()
@@ -77,12 +82,14 @@ func pickupGuns():
 								activeAweapon.get_child(0).queue_free()
 							activeAweapon.add_child(weapons[activeA])
 							weapon.queue_free()
+							weapon_pickup.play()
 						elif Input.is_action_just_pressed("fireB"):
 							weapons[activeB] = equip(weapon.weapon_data)
 							if activeBweapon.get_child_count() > 0:
 								activeBweapon.get_child(0).queue_free()
 							activeBweapon.add_child(weapons[activeB])
 							weapon.queue_free()
+							weapon_pickup.play()
 
 
 func _stopMoving():
@@ -94,7 +101,7 @@ func _stopMoving():
 		$leftArm.rotation = 0
 	
 
-func _moveLegsAndArms():
+func _moveLegsAndArms():	
 	if _getActiveWeapon() == 'arms':
 		$rightLeg.rotation = sin(Time.get_ticks_msec() * 0.015) * -0.4
 		$leftLeg.rotation = sin(Time.get_ticks_msec() * 0.015) * 0.4
@@ -109,6 +116,7 @@ func _getActiveWeapon():
 
 # inverte as armas que estao atirando
 func _switchWeapon():
+	weapon_pickup.play()
 	var mouse_pos = get_global_mouse_position()
 	var leftArmWeapon = $leftArm.get_child(0)
 	var rightArmWeapon = $rightArm.get_child(0)
@@ -191,17 +199,23 @@ func _physics_process(delta):
 	move_and_slide()
 	_switchWeapon()
 
+func fade_to_black(duration: float):
+	black.color.a = 0
+	black.visible = true
+	var tween = black.create_tween()
+	tween.tween_property(black, "color:a", 1, duration)
+
 func take_damage(amount):
 	health -= amount
-	print(health)
-	if health <= 0:		
-		print('jogador morreu, falta fazer o game over ou perder vidas')
-		animated_sprite.play("death")
+	player_hurt.play()
+	if health <= 0 and not dead:
+		dead = true	
+		fade_to_black(3.0)
+		game_over.play()
+		await get_tree().create_timer(3.0).timeout
+		get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 
 # le os eventos de quando o jogador é atingido
 func _on_body_entered(body):	
 	hide() 
 	$CollisionShape2D.set_deferred("disabled", true)
-	
-func on_weapon_picked_up():
-	print('hi')

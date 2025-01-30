@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://bv8auo3mmmgo8"]
+[gd_scene load_steps=11 format=3 uid="uid://bv8auo3mmmgo8"]
 
 [ext_resource type="Script" path="res://scripts/entities.gd" id="1_pgfdh"]
-[ext_resource type="SpriteFrames" uid="uid://lsg8krc2q3o1" path="res://resources/entities/kvn.tres" id="2_dcdk1"]
+[ext_resource type="SpriteFrames" uid="uid://261ytxp4hm7n" path="res://resources/entities/cyborg.tres" id="2_7pv1t"]
 [ext_resource type="Script" path="res://scripts/weapon.gd" id="2_jscsx"]
 [ext_resource type="PackedScene" uid="uid://c01entewikcib" path="res://scenes/enemy_projectile.tscn" id="4_6dtwf"]
 [ext_resource type="SpriteFrames" uid="uid://cdgawm8q1n5of" path="res://resources/etc/health-bar.tres" id="5_47eex"]
+[ext_resource type="AudioStream" uid="uid://00ikhqm0lt6h" path="res://assets/sounds/enemy-spawn.mp3" id="5_d8jyg"]
+[ext_resource type="AudioStream" uid="uid://dsupkcy1g1mno" path="res://assets/sounds/enemy-hurt.mp3" id="6_wwjav"]
+[ext_resource type="AudioStream" uid="uid://bq3pfur4m5c6h" path="res://assets/sounds/explosion.mp3" id="8_eug1y"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0mvol"]
 radius = 17.0
@@ -22,8 +25,8 @@ script = ExtResource("1_pgfdh")
 shape = SubResource("CapsuleShape2D_0mvol")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_dcdk1")
-animation = &"down_idle"
+sprite_frames = ExtResource("2_7pv1t")
+animation = &"left"
 
 [node name="Weapon" type="Node2D" parent="."]
 script = ExtResource("2_jscsx")
@@ -36,6 +39,9 @@ projectile_instance = ExtResource("4_6dtwf")
 
 [node name="SpawnZone" type="Area2D" parent="."]
 
+[node name="Spawn" type="AudioStreamPlayer2D" parent="SpawnZone"]
+stream = ExtResource("5_d8jyg")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnZone"]
 shape = SubResource("CircleShape2D_e6snv")
 
@@ -46,7 +52,13 @@ shape = SubResource("CircleShape2D_e6snv")
 [node name="HealthBar" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -19)
 sprite_frames = ExtResource("5_47eex")
-animation = &"70"
+animation = &"9"
+
+[node name="EnemyHurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_wwjav")
+
+[node name="EnemyDie" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_eug1y")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="body_entered" from="SpawnZone" to="." method="_on_spawn_zone_body_entered"]

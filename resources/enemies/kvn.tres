@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_cidp1"]
 [ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_2mpku"]
-[ext_resource type="Resource" uid="uid://blj60wfujrgnp" path="res://resources/guns/flamethrower.tres" id="3_18f00"]
+[ext_resource type="Resource" uid="uid://ck02lni3fnude" path="res://resources/guns/lasergun.tres" id="3_8uvg3"]
 
 [sub_resource type="Resource" id="Resource_fh80x"]
 script = ExtResource("2_2mpku")
 chance = 0.5
-weapon = ExtResource("3_18f00")
+weapon = ExtResource("3_8uvg3")
 
 [resource]
 script = ExtResource("1_cidp1")

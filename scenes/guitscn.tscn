@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://co567d4m4txax"]
+
+[ext_resource type="Script" path="res://scripts/gui.gd" id="1_xtmrn"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_xtmrn")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

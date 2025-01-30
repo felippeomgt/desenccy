@@ -21,8 +21,8 @@ func spawn_enemies():
 			enemy_instance.spawn(enemy_resource)
 			
 			var random_position = Vector2(
-				randf_range(spawn_area.position.x, spawn_area.position.x + spawn_area.size.x),
-				randf_range(spawn_area.position.y, spawn_area.position.y + spawn_area.size.y)
+				randf_range(0, spawn_area.position.x + spawn_area.size.x),
+				randf_range(0, spawn_area.position.y + spawn_area.size.y)
 			)
 			var spawn_position = spawn_area.position + random_position
 			print("Random spawn position: ", spawn_position)

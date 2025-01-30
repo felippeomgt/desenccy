@@ -22,7 +22,7 @@ one_way_collision_margin = 0.0
 position = Vector2(-9, -1)
 scale = Vector2(1, 0.96875)
 sprite_frames = ExtResource("2_ym2p7")
-animation = &"missile"
-frame_progress = 0.688666
+animation = &"laser"
+frame_progress = 0.843301
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

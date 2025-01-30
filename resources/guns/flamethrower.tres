@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_e16at")
-damage = 5.0
+damage = 25.0
 speed = 1000.0
 can_hold_shoot = true
 weapon_name = "flamethrower"
@@ -12,7 +12,7 @@ max_cooldown = 1000.0
 cooldown_rate = 5.0
 heat_per_shot = 10.0
 damage_multiplier = 1.0
-high_heat_damage_multiplier = 2.0
+high_heat_damage_multiplier = 5.0
 reset_time = 25.0
-fire_rate = 0.0
+fire_rate = 0.1
 projectile = "flames"

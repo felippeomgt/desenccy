@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dotjtrd27ecxm"]
+[gd_scene load_steps=7 format=3 uid="uid://dotjtrd27ecxm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w58xq"]
 [ext_resource type="SpriteFrames" uid="uid://4wwyfb1u7h02" path="res://resources/entities/player.tres" id="2_mlavj"]
+[ext_resource type="AudioStream" uid="uid://dtiy6olscqa3b" path="res://assets/sounds/player-died.wav" id="3_rls0i"]
+[ext_resource type="AudioStream" uid="uid://de6jf3vyt36y6" path="res://assets/sounds/player-hurt.mp3" id="4_e2s76"]
+[ext_resource type="AudioStream" uid="uid://dbm56aystlnj7" path="res://assets/sounds/footstep.mp3" id="5_8h2g0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u4hie"]
 radius = 14.0
@@ -40,3 +43,24 @@ position = Vector2(-4, 7)
 
 [node name="rightLeg" type="Marker2D" parent="."]
 position = Vector2(7, 7)
+
+[node name="Black" type="ColorRect" parent="."]
+visible = false
+offset_left = -568.0
+offset_top = -319.0
+offset_right = -528.0
+offset_bottom = -279.0
+scale = Vector2(29.6917, 17.4756)
+color = Color(0, 0, 0, 1)
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_rls0i")
+
+[node name="PlayerHurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_e2s76")
+
+[node name="Footsteps" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_8h2g0")
+parameters/looping = true
+
+[node name="WeaponPickup" type="AudioStreamPlayer" parent="."]
