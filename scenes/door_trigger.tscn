@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6bmm5xvi5bom"]
+
+[ext_resource type="Script" path="res://scripts/door_trigger.gd" id="1_380dq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58ldr"]
+size = Vector2(71, 32)
+
+[node name="DoorTrigger" type="Area2D" groups=["DoorTriggers"]]
+collision_layer = 64
+script = ExtResource("1_380dq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_58ldr")
+debug_color = Color(0.948234, 0.14705, 0.443415, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
