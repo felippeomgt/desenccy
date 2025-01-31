@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://b7ulh3eyurd24"]
 
-[ext_resource type="PackedScene" uid="uid://co567d4m4txax" path="res://scenes/guitscn.tscn" id="1_tj0gh"]
+[ext_resource type="PackedScene" path="res://scenes/guitscn.tscn" id="1_tj0gh"]
 [ext_resource type="PackedScene" uid="uid://dotjtrd27ecxm" path="res://scenes/player.tscn" id="1_xgc74"]
 [ext_resource type="PackedScene" uid="uid://cg3tw0x6pujkc" path="res://scenes/factory.tscn" id="2_bqhjc"]
 [ext_resource type="PackedScene" uid="uid://d2dtoobmrcsdn" path="res://scenes/spawner.tscn" id="3_un1sy"]
 [ext_resource type="Script" path="res://scripts/EnemyData.gd" id="4_eq8h3"]
 [ext_resource type="Resource" uid="uid://dp8tcvurtso2w" path="res://resources/enemies/kvn.tres" id="5_4wkhi"]
 [ext_resource type="Resource" uid="uid://bqqy164k01k0e" path="res://resources/enemies/kvn-dark.tres" id="6_h0ygj"]
-[ext_resource type="Resource" uid="uid://cqmiujvui5oc5" path="res://resources/enemies/cyborg-1.tres" id="8_1hg45"]
+[ext_resource type="Resource" uid="uid://b7nc1m8wqwgm7" path="res://resources/enemies/cyborg-1.tres" id="8_1hg45"]
 [ext_resource type="AudioStream" uid="uid://buywfjue1hi7e" path="res://assets/sounds/bg.mp3" id="10_qbejh"]
 
 [sub_resource type="Environment" id="Environment_7bt1h"]
@@ -22,7 +22,7 @@ fog_light_color = Color(0.419692, 0.283565, 0.182648, 1)
 position = Vector2(-5, 20)
 
 [node name="player" parent="." instance=ExtResource("1_xgc74")]
-position = Vector2(58, 447)
+position = Vector2(2683, 297)
 motion_mode = 1
 platform_wall_layers = 5
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6bmm5xvi5bom"]
+[gd_scene load_steps=4 format=3 uid="uid://b6bmm5xvi5bom"]
 
 [ext_resource type="Script" path="res://scripts/door_trigger.gd" id="1_380dq"]
+[ext_resource type="AudioStream" uid="uid://c5plqy0at2uep" path="res://assets/sounds/sliding-door.mp3" id="2_vpjcg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_58ldr"]
 size = Vector2(71, 32)
@@ -13,6 +14,10 @@ script = ExtResource("1_380dq")
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_58ldr")
 debug_color = Color(0.948234, 0.14705, 0.443415, 0.42)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_vpjcg")
+volume_db = 10.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

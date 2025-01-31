@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://bc3ch55o4jll0"]
+
+[ext_resource type="Script" path="res://scripts/victory_screen.gd" id="1_nvvkm"]
+[ext_resource type="AudioStream" uid="uid://cvlpg0eqyg2c7" path="res://assets/sounds/game-start.mp3" id="2_7jl2r"]
+[ext_resource type="AudioStream" uid="uid://bochnl7rw8dhs" path="res://assets/sounds/menu-hover.wav" id="3_77lab"]
+
+[node name="VictoryScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nvvkm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1209.0
+offset_bottom = 699.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1150.0
+offset_bottom = 652.0
+text = "VICTORY!
+Thanks for playing the demo!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 509.0
+offset_top = 425.0
+offset_right = 636.0
+offset_bottom = 463.0
+text = "Back to Menu"
+
+[node name="GameEnding" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_7jl2r")
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_77lab")
+
+[connection signal="mouse_entered" from="BackButton" to="." method="_on_back_button_mouse_entered"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
