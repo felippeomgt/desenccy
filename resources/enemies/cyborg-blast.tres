@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://cqmiujvui5oc5"]
+
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_ubd8h"]
+[ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_2l70w"]
+[ext_resource type="Resource" uid="uid://ck02lni3fnude" path="res://resources/guns/lasergun.tres" id="3_14gt8"]
+
+[sub_resource type="Resource" id="Resource_o2rae"]
+script = ExtResource("2_2l70w")
+chance = 0.1
+weapon = ExtResource("3_14gt8")
+
+[resource]
+script = ExtResource("1_ubd8h")
+isMelee = false
+enemy_speed = 50.0
+enemy_health = 600.0
+damage = 50
+bullet_speed = 100.0
+time_between_shots = 4.0
+weapon_drop_table = Array[ExtResource("2_2l70w")]([SubResource("Resource_o2rae")])
+sprite = "cyborg"
+projectile = "blast"

@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dotjtrd27ecxm"]
+[gd_scene load_steps=9 format=3 uid="uid://dotjtrd27ecxm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w58xq"]
 [ext_resource type="SpriteFrames" uid="uid://4wwyfb1u7h02" path="res://resources/entities/player.tres" id="2_mlavj"]
 [ext_resource type="AudioStream" uid="uid://dtiy6olscqa3b" path="res://assets/sounds/player-died.wav" id="3_rls0i"]
 [ext_resource type="AudioStream" uid="uid://de6jf3vyt36y6" path="res://assets/sounds/player-hurt.mp3" id="4_e2s76"]
 [ext_resource type="AudioStream" uid="uid://dbm56aystlnj7" path="res://assets/sounds/footstep.mp3" id="5_8h2g0"]
+[ext_resource type="AudioStream" uid="uid://127ueb6fodo1" path="res://assets/sounds/weapon-pickup.wav" id="6_nq2iu"]
+[ext_resource type="PackedScene" uid="uid://co567d4m4txax" path="res://scenes/guitscn.tscn" id="7_yigj6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u4hie"]
 radius = 14.0
@@ -61,6 +63,12 @@ stream = ExtResource("4_e2s76")
 
 [node name="Footsteps" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_8h2g0")
+volume_db = -1.055
+pitch_scale = 1.6
 parameters/looping = true
 
 [node name="WeaponPickup" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_nq2iu")
+volume_db = -12.447
+
+[node name="GUI" parent="." instance=ExtResource("7_yigj6")]

@@ -15,13 +15,13 @@ run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GUI="*res://scripts/gui.gd"
+
 [global_group]
 
 DoorTriggers=""
-
-[autoload]
-
-UImanager="*res://scripts/u_imanager.gd"
 
 [input]
 

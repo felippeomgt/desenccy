@@ -9,7 +9,7 @@ func _ready():
 	contact_monitor = true
 	max_contacts_reported = 1
 	connect("body_entered", Callable(self, "_on_body_entered"))
-	if projectile == 'punch' or projectile == 'sword':
+	if projectile == 'punch' or projectile == 'swing':
 		await get_tree().create_timer(0.2).timeout
 		queue_free()
 

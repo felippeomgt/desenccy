@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://do7nershbqj3w"]
+
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_abrmc"]
+[ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_500ro"]
+[ext_resource type="Resource" uid="uid://gklo4rs70odk" path="res://resources/guns/rifle.tres" id="3_1pson"]
+
+[sub_resource type="Resource" id="Resource_o2rae"]
+script = ExtResource("2_500ro")
+chance = 0.6
+weapon = ExtResource("3_1pson")
+
+[resource]
+script = ExtResource("1_abrmc")
+isMelee = false
+enemy_speed = 50.0
+enemy_health = 700.0
+damage = 50
+bullet_speed = 100.0
+time_between_shots = 3.0
+weapon_drop_table = Array[ExtResource("2_500ro")]([SubResource("Resource_o2rae")])
+sprite = "cyborg"
+projectile = "bullet"

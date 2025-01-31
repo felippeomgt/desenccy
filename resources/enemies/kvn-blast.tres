@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://dp8tcvurtso2w"]
+
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_ybauh"]
+[ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_2845e"]
+[ext_resource type="Resource" uid="uid://ck02lni3fnude" path="res://resources/guns/lasergun.tres" id="3_xjl0i"]
+
+[sub_resource type="Resource" id="Resource_fh80x"]
+script = ExtResource("2_2845e")
+chance = 0.4
+weapon = ExtResource("3_xjl0i")
+
+[resource]
+script = ExtResource("1_ybauh")
+isMelee = false
+enemy_speed = 70.0
+enemy_health = 100.0
+damage = 15
+bullet_speed = 100.0
+time_between_shots = 1.5
+weapon_drop_table = Array[ExtResource("2_2845e")]([SubResource("Resource_fh80x")])
+sprite = "kvn"
+projectile = "plasma"

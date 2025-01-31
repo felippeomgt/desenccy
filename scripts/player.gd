@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@export var max_health: float = 500
 @export var health: float = 500
 @export var speed: float = 200.0
 @export var acceleration: float = 600.0
@@ -15,16 +16,20 @@ var angle # angulo que o cursor está em relação ao jogador (usado pra mira)
 @onready var player_hurt = $PlayerHurt
 @onready var footsteps = $Footsteps
 @onready var weapon_pickup = $WeaponPickup
+@onready var GUI = $GUI
+
 
 var flameThrower = preload("res://resources/guns/flamethrower.tres")
 var launcher = preload("res://resources/guns/launcher.tres")
 var sword = preload("res://resources/guns/sword.tres")
-var rigle = preload("res://resources/guns/rifle.tres")
+var rifle = preload("res://resources/guns/rifle.tres")
 var lasergun = preload("res://resources/guns/lasergun.tres")
 var punch = preload("res://resources/guns/punch.tres")
 
 var activeA = "leftArm"
 var activeB = "rightArm"
+var activeC = "leftLeg"
+var activeD = "rightLeg"
 var dead = false
 
 var weapon_scene = preload("res://scenes/weapon.tscn")
@@ -36,13 +41,15 @@ func equip(weapon_data: Resource):
 	return weapon_instance
 
 func _ready():
+	GUI.healthBar.max_value = max_health
+	GUI.update_health(health)
 	black.color.a = 0
 	black.hide()
 	add_to_group("player")
 	Input.set_custom_mouse_cursor(crosshair)
 	
 	weapons["leftArm"] = equip(punch)
-	weapons["rightArm"] = equip(sword)
+	weapons["rightArm"] = equip(rifle)
 	weapons["leftLeg"] = equip(punch)
 	weapons["rightLeg"] = equip(punch)
 	$leftArm.add_child(weapons["leftArm"])
@@ -55,12 +62,18 @@ func _process(delta):
 	var direction = (mouse_pos - global_position).normalized()
 	# angulo da mira em relação ao player, faz o tiro sair pra direção certa
 	angle = direction.angle()
+	var walking = false
 	if velocity.length() > 0: 
-		footsteps.play()
 		_moveLegsAndArms()
+		if walking:
+			walking = false
+			footsteps.stop()
 	else:
-		footsteps.stop()
 		_stopMoving()
+		if not walking:
+			walking = true;
+			footsteps.play()
+		
 	
 	pickupGuns()
 
@@ -76,7 +89,15 @@ func pickupGuns():
 					if weapon_rect.has_point(get_global_mouse_position()):
 						var activeAweapon = get_node(activeA)
 						var activeBweapon = get_node(activeB)
-						if Input.is_action_just_pressed("fireA"):					
+						if Input.is_action_just_pressed("fireA"):							
+							if weapon.weapon_name == weapons[activeA].weapon_name:
+								if ((health+weapon.heat_per_shot) > max_health):
+									health = max_health
+								else:
+									health += weapon.heat_per_shot
+								GUI.update_health(health)
+								weapon.queue_free()
+								return								
 							weapons[activeA] = equip(weapon.weapon_data)
 							if activeAweapon.get_child_count() > 0:
 								activeAweapon.get_child(0).queue_free()
@@ -84,6 +105,14 @@ func pickupGuns():
 							weapon.queue_free()
 							weapon_pickup.play()
 						elif Input.is_action_just_pressed("fireB"):
+							if weapon.weapon_name == weapons[activeB].weapon_name:
+								if ((health+weapon.heat_per_shot) > max_health):
+									health = max_health
+								else:
+									health += weapon.heat_per_shot
+								GUI.update_health(health)
+								weapon.queue_free()
+								return	
 							weapons[activeB] = equip(weapon.weapon_data)
 							if activeBweapon.get_child_count() > 0:
 								activeBweapon.get_child(0).queue_free()
@@ -115,8 +144,7 @@ func _getActiveWeapon():
 	return 'legs'
 
 # inverte as armas que estao atirando
-func _switchWeapon():
-	weapon_pickup.play()
+func _switchWeapon():	
 	var mouse_pos = get_global_mouse_position()
 	var leftArmWeapon = $leftArm.get_child(0)
 	var rightArmWeapon = $rightArm.get_child(0)
@@ -138,6 +166,10 @@ func _switchWeapon():
 
 func _physics_process(delta):
 	var direction = Vector2.ZERO
+	GUI.update_heat_a(weapons[activeA]['current_cooldown'],weapons[activeA]['is_overheated'], weapons[activeA]['max_cooldown'])
+	GUI.update_heat_b(weapons[activeB]['current_cooldown'],weapons[activeB]['is_overheated'], weapons[activeB]['max_cooldown'])
+	GUI.update_heat_c(weapons[activeC]['current_cooldown'],weapons[activeC]['is_overheated'], weapons[activeC]['max_cooldown'])
+	GUI.update_heat_d(weapons[activeD]['current_cooldown'],weapons[activeD]['is_overheated'], weapons[activeD]['max_cooldown'])
 	
 	# input pros movimentos e animações
 	if Input.is_action_pressed("up"):
@@ -173,17 +205,23 @@ func _physics_process(delta):
 
 	# troca de armas, troca os inputs fireA e o fireB entre braços e pernas
 	if Input.is_action_just_pressed("switch"):
+		weapon_pickup.play()
 		if _getActiveWeapon() == 'arms':
 			activeA = "leftLeg"
 			activeB = "rightLeg"
+			activeC = "leftArm"
+			activeD = "rightArm"
 		elif _getActiveWeapon() == 'legs':
 			activeA = "leftArm"
 			activeB = "rightArm"
+			activeC = "leftLeg"
+			activeD = "rightLeg"
 
 	# verifica se a arma pode metralhar, le o input conforme parametro da arma e atira
 	if weapons[activeA].can_hold_shoot:
 		if Input.is_action_pressed("fireA"):
 			weapons[activeA].fire(self)
+			
 	else:
 		if Input.is_action_just_released("fireA"):
 			weapons[activeA].fire(self)
@@ -191,9 +229,11 @@ func _physics_process(delta):
 	if weapons[activeB].can_hold_shoot:
 		if Input.is_action_pressed("fireB"):
 			weapons[activeB].fire(self)
+		
 	else:
 		if Input.is_action_just_released("fireB"):
 			weapons[activeB].fire(self)
+		
 		
 	# andar 
 	move_and_slide()
@@ -207,8 +247,10 @@ func fade_to_black(duration: float):
 
 func take_damage(amount):
 	health -= amount
+	GUI.update_health(health)
 	player_hurt.play()
 	if health <= 0 and not dead:
+		health = 0
 		dead = true	
 		fade_to_black(3.0)
 		game_over.play()

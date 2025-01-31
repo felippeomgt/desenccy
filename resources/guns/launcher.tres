@@ -4,15 +4,15 @@
 
 [resource]
 script = ExtResource("1_rhgbl")
-damage = 200.0
+damage = 250.0
 speed = 500.0
 can_hold_shoot = false
 weapon_name = "launcher"
-max_cooldown = 200.0
-cooldown_rate = 30.0
+max_cooldown = 250.0
+cooldown_rate = 10.0
 heat_per_shot = 50.0
 damage_multiplier = 1.5
 high_heat_damage_multiplier = 5.0
 reset_time = 10.0
-fire_rate = 1.5
+fire_rate = 2.0
 projectile = "missile"

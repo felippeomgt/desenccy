@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://6uwtguj01suu"]
+
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_arw1e"]
+[ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_nku56"]
+[ext_resource type="Resource" uid="uid://blj60wfujrgnp" path="res://resources/guns/flamethrower.tres" id="3_gowvu"]
+
+[sub_resource type="Resource" id="Resource_o2rae"]
+script = ExtResource("2_nku56")
+chance = 1.0
+weapon = ExtResource("3_gowvu")
+
+[resource]
+script = ExtResource("1_arw1e")
+isMelee = false
+enemy_speed = 50.0
+enemy_health = 1000.0
+damage = 100
+bullet_speed = 30.0
+time_between_shots = 5.0
+weapon_drop_table = Array[ExtResource("2_nku56")]([SubResource("Resource_o2rae")])
+sprite = "cyborg"
+projectile = "explosion"

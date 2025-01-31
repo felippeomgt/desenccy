@@ -5,14 +5,14 @@
 [resource]
 script = ExtResource("1_tijtf")
 damage = 20.0
-speed = 15.0
-can_hold_shoot = false
-weapon_name = ""
+speed = 30.0
+can_hold_shoot = true
+weapon_name = "sword"
 max_cooldown = 200.0
 cooldown_rate = 1.0
-heat_per_shot = 2.0
+heat_per_shot = 20.0
 damage_multiplier = 1.0
 high_heat_damage_multiplier = 1.5
-reset_time = 3.0
+reset_time = 0.5
 fire_rate = 0.2
 projectile = "swing"

@@ -13,7 +13,7 @@ signal picked_up(weapon_data: Resource)  # Definição do sinal
 @export var heat_per_shot: float = 20.0  # Quanto esquenta por tiro
 @export var damage_multiplier: float = 1.0  # Dano base
 @export var high_heat_damage_multiplier: float = 1.5  # 70%+ de cooldown, mais dano
-@export var reset_time: float = 3.0  # Tempo para resetar após superaquecer
+@export var reset_time: float = 2 # Tempo para resetar após superaquecer
 @export var fire_rate: float = 0.2 
 @export var projectile: String = 'punch'
 @onready var animated_sprite = $WeaponSprite
@@ -69,7 +69,7 @@ func fire(origin_node, alternative_projectile = ''):
 		pass
 	else:
 		return
-		
+	
 	if is_overheated:
 		return
 
@@ -77,7 +77,6 @@ func fire(origin_node, alternative_projectile = ''):
 	if current_cooldown >= max_cooldown:
 		_trigger_overheat()
 		is_overheated = true
-		return
 	
 	# Se o cooldown está acima de 70%, aumenta o dano
 	if current_cooldown >= max_cooldown * 0.7:
@@ -115,14 +114,11 @@ func play_sound_dynamic(projectile):
 # funciona nos inimigos, nao funciona pro player, talvez porque a arma é instanciada dinamicamente, nao sei
 func _trigger_overheat():	
 	cooldown_timer.stop()
+	cooldown_timer.wait_time = reset_time
 	cooldown_timer.start() 
 	await cooldown_timer.timeout
 	current_cooldown = 0
 	is_overheated = false
-
-func _on_CooldownTimer_timeout():
-	if current_cooldown > 0:
-		current_cooldown = max(0, current_cooldown - cooldown_rate)
 
 func _on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
@@ -130,3 +126,7 @@ func _on_input_event(viewport, event, shape_idx):
 
 func _on_area_2d_mouse_entered() -> void:
 	$WeaponSprite.modulate = Color(1, 1, 1, 0.7)
+
+func _on_cooldown_rate_timeout() -> void:
+	if current_cooldown > 0:
+		current_cooldown = max(0, current_cooldown - cooldown_rate)

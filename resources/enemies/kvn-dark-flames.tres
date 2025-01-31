@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://dvnqks32frwgu"]
+
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_tadst"]
+[ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_66x8d"]
+[ext_resource type="Resource" uid="uid://blj60wfujrgnp" path="res://resources/guns/flamethrower.tres" id="3_ud6h6"]
+
+[sub_resource type="Resource" id="Resource_5l7n2"]
+script = ExtResource("2_66x8d")
+chance = 0.2
+weapon = ExtResource("3_ud6h6")
+
+[resource]
+script = ExtResource("1_tadst")
+isMelee = false
+enemy_speed = 120.0
+enemy_health = 550.0
+damage = 3
+bullet_speed = 200.0
+time_between_shots = 0.3
+weapon_drop_table = Array[ExtResource("2_66x8d")]([SubResource("Resource_5l7n2")])
+sprite = "kvn-dark"
+projectile = "flames"

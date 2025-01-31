@@ -1,14 +1,28 @@
-[gd_scene load_steps=11 format=3 uid="uid://b7ulh3eyurd24"]
+[gd_scene load_steps=25 format=3 uid="uid://b7ulh3eyurd24"]
 
-[ext_resource type="PackedScene" path="res://scenes/guitscn.tscn" id="1_tj0gh"]
 [ext_resource type="PackedScene" uid="uid://dotjtrd27ecxm" path="res://scenes/player.tscn" id="1_xgc74"]
 [ext_resource type="PackedScene" uid="uid://cg3tw0x6pujkc" path="res://scenes/factory.tscn" id="2_bqhjc"]
 [ext_resource type="PackedScene" uid="uid://d2dtoobmrcsdn" path="res://scenes/spawner.tscn" id="3_un1sy"]
 [ext_resource type="Script" path="res://scripts/EnemyData.gd" id="4_eq8h3"]
-[ext_resource type="Resource" uid="uid://dp8tcvurtso2w" path="res://resources/enemies/kvn.tres" id="5_4wkhi"]
-[ext_resource type="Resource" uid="uid://bqqy164k01k0e" path="res://resources/enemies/kvn-dark.tres" id="6_h0ygj"]
-[ext_resource type="Resource" uid="uid://b7nc1m8wqwgm7" path="res://resources/enemies/cyborg-1.tres" id="8_1hg45"]
+[ext_resource type="Resource" uid="uid://dp8tcvurtso2w" path="res://resources/enemies/kvn-blast.tres" id="5_4wkhi"]
+[ext_resource type="Resource" uid="uid://bqqy164k01k0e" path="res://resources/enemies/kvn-dark-laser.tres" id="6_h0ygj"]
+[ext_resource type="Resource" uid="uid://cwg4ppowgq6u7" path="res://resources/enemies/kvn-launcher.tres" id="6_hs3hp"]
+[ext_resource type="Resource" uid="uid://02n1hgpkge7a" path="res://resources/enemies/kvn-laser.tres" id="7_0pj80"]
+[ext_resource type="Resource" uid="uid://bwra7woffcxx8" path="res://resources/enemies/cyborg-laser.tres" id="7_t6aix"]
+[ext_resource type="Resource" uid="uid://bn0ri0tidwq47" path="res://resources/enemies/cyborg-sword-boss.tres" id="8_0eh1a"]
+[ext_resource type="Resource" uid="uid://dvnqks32frwgu" path="res://resources/enemies/kvn-dark-flames.tres" id="8_dlo1n"]
+[ext_resource type="Resource" uid="uid://6uwtguj01suu" path="res://resources/enemies/cyborg-explosion.tres" id="8_haf1o"]
+[ext_resource type="Resource" uid="uid://4tu8gci1tnm7" path="res://resources/enemies/kvn-bullet.tres" id="8_rmgl2"]
+[ext_resource type="Resource" uid="uid://de536nuxaqe4v" path="res://resources/enemies/kvn-dark-plasma.tres" id="9_c3g4c"]
+[ext_resource type="Resource" uid="uid://c7vkjdcee8gtr" path="res://resources/enemies/kvn-flames.tres" id="10_mghh2"]
 [ext_resource type="AudioStream" uid="uid://buywfjue1hi7e" path="res://assets/sounds/bg.mp3" id="10_qbejh"]
+[ext_resource type="Resource" uid="uid://dw7nttv70x2ix" path="res://resources/enemies/kvn-dark-launcher.tres" id="12_pdwme"]
+[ext_resource type="Resource" uid="uid://druw7rivsviq1" path="res://resources/enemies/kvn-dark-bullet.tres" id="15_p3gy2"]
+[ext_resource type="Resource" uid="uid://cqmiujvui5oc5" path="res://resources/enemies/cyborg-blast.tres" id="16_wd3si"]
+[ext_resource type="Resource" uid="uid://do7nershbqj3w" path="res://resources/enemies/cyborg-bullet.tres" id="17_5pf7k"]
+[ext_resource type="Resource" uid="uid://ca1m2oedt2j1a" path="res://resources/enemies/cyborg-launcher.tres" id="19_8382x"]
+[ext_resource type="Resource" uid="uid://bfaeu76ssus3m" path="res://resources/enemies/cyborg-punch.tres" id="20_t1pwy"]
+[ext_resource type="Resource" uid="uid://ca3xspnb84570" path="res://resources/enemies/cyborg-flames.tres" id="22_pvaj1"]
 
 [sub_resource type="Environment" id="Environment_7bt1h"]
 background_color = Color(0.39201, 0.147976, 0.139528, 1)
@@ -16,37 +30,246 @@ fog_light_color = Color(0.419692, 0.283565, 0.182648, 1)
 
 [node name="main" type="Node2D"]
 
-[node name="CanvasLayer" parent="." instance=ExtResource("1_tj0gh")]
-
 [node name="Factory" parent="." instance=ExtResource("2_bqhjc")]
 position = Vector2(-5, 20)
 
 [node name="player" parent="." instance=ExtResource("1_xgc74")]
-position = Vector2(2683, 297)
+position = Vector2(58, 447)
 motion_mode = 1
 platform_wall_layers = 5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7bt1h")
 
-[node name="Spawner" parent="." instance=ExtResource("3_un1sy")]
-position = Vector2(208, 422)
-enemy_count = 3
-enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi")])
-spawn_area = Rect2(250, 250, 10, 10)
-waves = 1
-wave_timeout = 3.0
-
-[node name="Spawner2" parent="." instance=ExtResource("3_un1sy")]
-position = Vector2(1189, 337)
-enemy_count = 15
-enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi"), ExtResource("6_h0ygj"), ExtResource("8_1hg45")])
-spawn_area = Rect2(1000, 400, 20, 20)
-waves = 3
-wave_timeout = 20.0
-
 [node name="Bg" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_qbejh")
 autoplay = true
 playback_type = 1
 parameters/looping = true
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="SPAWN1" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(196, 429)
+scale = Vector2(8.005, 12.765)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi"), ExtResource("7_0pj80"), ExtResource("8_rmgl2")])
+waves = 2
+wave_timeout = 0.7
+
+[node name="SPAWN14" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(3396, 398)
+scale = Vector2(8.005, 24.035)
+enemy_count = 5
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("7_0pj80"), ExtResource("6_hs3hp"), ExtResource("10_mghh2"), ExtResource("5_4wkhi"), ExtResource("8_rmgl2")])
+waves = 5
+wave_timeout = 15.0
+
+[node name="SPAWN15" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(3986, 403)
+scale = Vector2(8.005, 24.035)
+enemy_count = 4
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2")])
+waves = 4
+wave_timeout = 8.0
+
+[node name="SPAWN16" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(4596, 403)
+scale = Vector2(8.005, 24.035)
+enemy_count = 3
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("17_5pf7k"), ExtResource("7_t6aix"), ExtResource("19_8382x")])
+waves = 3
+wave_timeout = 6.0
+
+[node name="SPAWN12" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2298, 706)
+scale = Vector2(11.655, 14.415)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("6_hs3hp"), ExtResource("7_t6aix"), ExtResource("6_hs3hp"), ExtResource("7_0pj80"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("15_p3gy2")])
+waves = 8
+wave_timeout = 0.3
+
+[node name="SPAWN17" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(3152, -1472)
+scale = Vector2(11.655, 14.415)
+enemy_count = 2
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("20_t1pwy")])
+waves = 1
+
+[node name="SPAWN18" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(4423, -1547)
+scale = Vector2(11.655, 14.415)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("8_haf1o")])
+waves = 1
+
+[node name="SPAWN3" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(552, 422)
+scale = Vector2(5.59, 3)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c")])
+waves = 1
+
+[node name="SPAWN10" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1777, 704)
+scale = Vector2(5.59, 3)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("6_hs3hp")])
+waves = 1
+
+[node name="SPAWN11" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2210, 79)
+scale = Vector2(5.59, 3)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c")])
+waves = 1
+
+[node name="SPAWN25" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(3685, 580)
+scale = Vector2(4.635, 2.82)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c")])
+waves = 1
+
+[node name="SPAWN26" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(4296, 136)
+scale = Vector2(4.635, 2.82)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c")])
+waves = 1
+
+[node name="SPAWN27" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(4981, 586)
+scale = Vector2(7.04, 2.82)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("22_pvaj1")])
+waves = 1
+
+[node name="SPAWN23" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(3017, 66)
+scale = Vector2(5.59, 3)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("17_5pf7k"), ExtResource("7_0pj80"), ExtResource("6_h0ygj")])
+waves = 1
+
+[node name="SPAWN28" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(3773, -1471)
+scale = Vector2(5.59, 3)
+enemy_count = 3
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi")])
+waves = 1
+
+[node name="SPAWN24" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2684, 378)
+scale = Vector2(2.555, 8.855)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c"), ExtResource("6_hs3hp")])
+waves = 2
+wave_timeout = 1.0
+
+[node name="SPAWN21" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1767, 115)
+scale = Vector2(16.29, 5.545)
+enemy_count = 2
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("9_c3g4c"), ExtResource("12_pdwme")])
+waves = 1
+
+[node name="SPAWN22" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2593, -1627)
+scale = Vector2(16.29, 5.545)
+enemy_count = 3
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("6_h0ygj")])
+waves = 1
+
+[node name="SPAWN2" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1030, 406)
+scale = Vector2(19.395, 25)
+enemy_count = 2
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("5_4wkhi"), ExtResource("8_rmgl2"), ExtResource("7_0pj80"), ExtResource("6_h0ygj"), ExtResource("9_c3g4c"), ExtResource("15_p3gy2")])
+waves = 3
+wave_timeout = 15.0
+
+[node name="SPAWN29" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1230, 186)
+scale = Vector2(10.124, 11.444)
+enemy_count = 2
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("6_hs3hp"), ExtResource("12_pdwme")])
+waves = 2
+wave_timeout = 6.0
+
+[node name="SPAWN30" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1234, 626)
+scale = Vector2(9.009, 11.444)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("10_mghh2"), ExtResource("8_dlo1n"), ExtResource("16_wd3si")])
+waves = 2
+wave_timeout = 6.0
+
+[node name="SPAWN13" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(4769, -607)
+scale = Vector2(28.675, 27.68)
+enemy_count = 3
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("6_hs3hp"), ExtResource("7_0pj80"), ExtResource("10_mghh2"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2"), ExtResource("8_rmgl2"), ExtResource("5_4wkhi")])
+waves = 20
+wave_timeout = 5.0
+
+[node name="SPAWN4" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1364, -1617)
+scale = Vector2(5.415, 10.835)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("8_0eh1a")])
+waves = 1
+
+[node name="SPAWN19" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1755, -1623)
+scale = Vector2(5.855, 10.585)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("20_t1pwy")])
+waves = 1
+
+[node name="SPAWN20" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2139, -1617)
+scale = Vector2(5.04, 10.585)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("8_haf1o")])
+waves = 1
+
+[node name="SPAWN5" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2324, -634)
+scale = Vector2(4.51, 40)
+enemy_count = 1
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("17_5pf7k"), ExtResource("22_pvaj1"), ExtResource("7_t6aix"), ExtResource("19_8382x"), ExtResource("5_4wkhi"), ExtResource("8_rmgl2"), ExtResource("10_mghh2"), ExtResource("7_0pj80"), ExtResource("6_hs3hp"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2")])
+waves = 15
+wave_timeout = 3.0
+
+[node name="SPAWN6" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(2067, -753)
+scale = Vector2(4.51, 40)
+enemy_count = 2
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("17_5pf7k"), ExtResource("22_pvaj1"), ExtResource("7_t6aix"), ExtResource("19_8382x"), ExtResource("5_4wkhi"), ExtResource("8_rmgl2"), ExtResource("10_mghh2"), ExtResource("7_0pj80"), ExtResource("6_hs3hp"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2")])
+waves = 15
+wave_timeout = 5.0
+
+[node name="SPAWN7" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1815, -663)
+scale = Vector2(4.51, 40)
+enemy_count = 3
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("17_5pf7k"), ExtResource("22_pvaj1"), ExtResource("7_t6aix"), ExtResource("19_8382x"), ExtResource("5_4wkhi"), ExtResource("8_rmgl2"), ExtResource("10_mghh2"), ExtResource("7_0pj80"), ExtResource("6_hs3hp"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2")])
+waves = 15
+wave_timeout = 9.0
+
+[node name="SPAWN8" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1539, -753)
+scale = Vector2(4.51, 40)
+enemy_count = 5
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("17_5pf7k"), ExtResource("22_pvaj1"), ExtResource("7_t6aix"), ExtResource("19_8382x"), ExtResource("5_4wkhi"), ExtResource("8_rmgl2"), ExtResource("10_mghh2"), ExtResource("7_0pj80"), ExtResource("6_hs3hp"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2")])
+waves = 10
+wave_timeout = 15.0
+
+[node name="SPAWN9" parent="Spawns" instance=ExtResource("3_un1sy")]
+position = Vector2(1239, -658)
+scale = Vector2(4.51, 40)
+enemy_count = 10
+enemies_list = Array[ExtResource("4_eq8h3")]([ExtResource("16_wd3si"), ExtResource("17_5pf7k"), ExtResource("22_pvaj1"), ExtResource("7_t6aix"), ExtResource("19_8382x"), ExtResource("5_4wkhi"), ExtResource("8_rmgl2"), ExtResource("10_mghh2"), ExtResource("7_0pj80"), ExtResource("6_hs3hp"), ExtResource("9_c3g4c"), ExtResource("12_pdwme"), ExtResource("6_h0ygj"), ExtResource("8_dlo1n"), ExtResource("15_p3gy2")])
+waves = 15
+wave_timeout = 20.0

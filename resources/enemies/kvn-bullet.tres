@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3 uid="uid://4tu8gci1tnm7"]
+
+[ext_resource type="Script" path="res://scripts/EnemyData.gd" id="1_2fap5"]
+[ext_resource type="Script" path="res://scripts/DropTable.gd" id="2_ohrfh"]
+[ext_resource type="Resource" uid="uid://gklo4rs70odk" path="res://resources/guns/rifle.tres" id="3_2m6dj"]
+
+[sub_resource type="Resource" id="Resource_fh80x"]
+script = ExtResource("2_ohrfh")
+chance = 0.3
+weapon = ExtResource("3_2m6dj")
+
+[resource]
+script = ExtResource("1_2fap5")
+isMelee = false
+enemy_speed = 70.0
+enemy_health = 200.0
+damage = 5
+bullet_speed = 75.0
+time_between_shots = 1.5
+weapon_drop_table = Array[ExtResource("2_ohrfh")]([SubResource("Resource_fh80x")])
+sprite = "kvn"
+projectile = "bullet"
